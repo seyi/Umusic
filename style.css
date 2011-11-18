@@ -1,0 +1,31 @@
+body {
+	background-color: #1A1A1A;
+	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+	font-weight: 100;
+	color: #CCCCCC;
+}
+#logo {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+h1, h2, h3 {
+	text-align: center;
+	font-variant: small-caps;
+}
+#team {
+	width: 618px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#team > div {
+	float: left;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+#team > div > img {
+	border: 1px solid #CCC;
+}
+#team > div > p {
+	text-align: center;
+}
