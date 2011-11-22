@@ -1,0 +1,12 @@
+[submodule "kohana/system"]
+	path = kohana/system
+	url = https://github.com/kohana/core.git
+[submodule "kohana/modules/database"]
+	path = kohana/modules/database
+	url = https://github.com/kohana/database.git
+[submodule "kohana/modules/userguide"]
+	path = kohana/modules/userguide
+	url = https://github.com/kohana/userguide.git
+[submodule "kohana/modules/auth"]
+	path = kohana/modules/auth
+	url = https://github.com/kohana/auth.git
