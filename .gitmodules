@@ -10,3 +10,18 @@
 [submodule "kohana/modules/auth"]
 	path = kohana/modules/auth
 	url = https://github.com/kohana/auth.git
+[submodule "kohana/modules/cache"]
+	path = kohana/modules/cache
+	url = https://github.com/kohana/cache
+[submodule "kohana/modules/codebench"]
+	path = kohana/modules/codebench
+	url = https://github.com/kohana/codebench
+[submodule "kohana/modules/image"]
+	path = kohana/modules/image
+	url = https://github.com/kohana/image
+[submodule "kohana/modules/orm"]
+	path = kohana/modules/orm
+	url = https://github.com/kohana/orm
+[submodule "kohana/modules/unittest"]
+	path = kohana/modules/unittest
+	url = https://github.com/kohana/unittest
