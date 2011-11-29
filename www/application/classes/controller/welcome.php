@@ -1,26 +1,35 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php
+
+defined('SYSPATH') or die('No direct script access.');
 
 class Controller_Welcome extends Controller {
 
-	public function action_index()
-	{
-            $database = Database::instance();
-            
-            //load Million Song Dataset files
-            $database->attach('artist_term','lastfm_similars','lastfm_tags','track_metadata');
-            
-            $r = $database->query(Database::SELECT, "
-                SELECT * FROM (
-SELECT artist_id, count(*) AS count FROM artist_term
-WHERE artist_term.term = \"jazz\"
-OR artist_term.term = \"80s\"
-OR artist_term.term = \"90s\"
-GROUP BY artist_id
-) ORDER BY count DESC
-LIMIT 1000");
-            
-            $this->response->body("<pre>" . Debug::dump($r) . "</pre>");
-            
-        }
+    private $database;
 
-} // End Welcome
+    public function before() {
+        parent::before();
+        $this->database = Database::instance();
+
+        //load Million Song Dataset files
+        $this->database->attach('artist_term', 'lastfm_similars', 'lastfm_tags', 'track_metadata');
+    }
+
+    public function action_index() {
+        $view = new View_Base;
+        $view->set('content', 'Type the name of an artist in the search box.');
+        echo $view;
+    }
+
+    public function action_search() {
+        $view = new View_Base;
+        $query = Arr::get($this->request->post(), 'q', false);
+        if ($query) {
+            $res = DB::select("title","artist_name")->from("track_metadata.songs")->where("artist_name", "LIKE", "%".$query."%")->limit(20)->execute("umusic");
+            $view->set('results',$res);
+        }
+        echo $view;
+    }
+
+}
+
+// End Welcome
