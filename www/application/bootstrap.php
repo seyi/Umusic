@@ -81,7 +81,7 @@ if (isset($_SERVER['KOHANA_ENV']))
  */
 Kohana::init(array(
 	'base_url'   => '/',
-        'index_file' => '',
+    'index_file' => '',
 ));
 
 /**
@@ -107,8 +107,8 @@ Kohana::modules(array(
 	 'unittest'   => MODPATH.'unittest',   // Unit testing
 	 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
     
-    	 'KOstache'   => MODPATH.'KOstache',   // Mustache for Kohana
-	 'bonafide'   => MODPATH.'bonafide ',  // Authentication
+     'KOstache'   => MODPATH.'KOstache',   // Mustache for Kohana
+	 'bonafide'   => MODPATH.'bonafide',  // Authentication
 	));
 
 /**
