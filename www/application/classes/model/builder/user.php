@@ -15,7 +15,9 @@ defined('SYSPATH') or die('No direct script access.');
  */
 class Model_Builder_User extends Jelly_Builder
 {
-    
+    public function by_username($username) {
+        return $this->where('username', '=', strtolower($username))->limit(1);
+    }
 }
 
 ?>

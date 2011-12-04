@@ -37,15 +37,18 @@ class Model_User extends Jelly_Model implements Model_ACL_User {
                 'allow_null' => false,
                 'unique' => true,
                 'rules' => array(
+                    array('not_empty'),
                     array('max_length', array(':value', 32)),
                     array('alpha_dash'),
+                ),
+                'filters' => array(
+                    array('strtolower'),
                 ),
             )),
             'password' => Jelly::field('string', array(
                 'allow_null' => false,
                 'rules' => array(
                     array('not_empty'),
-                    array('min_length', array(':value', 8)),
                 ),
                 'filters' => array(
                     array(array(':model', 'hash')),

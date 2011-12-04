@@ -15,15 +15,34 @@ defined('SYSPATH') or die('No direct script access.');
  */
 class Controller_Main extends Controller {
 
+    /**
+     *
+     * @var View_Main 
+     */
     public $view;
+    
+    /**
+     *
+     * @var boolean
+     */
     public $auto_render = true;
-    public $database, $session, $user;
+    
+    /**
+     *
+     * @var Database 
+     */
+    public $database;
+    
+    /**
+     *
+     * @var Session
+     */
+    public $session;
     
     public function before() {
         parent::before();
         $this->database = Database::instance();
         $this->session = Session::instance();
-        $this->user = $this->session->get('user_id');
         $this->view = new View_Main();
     }
     
