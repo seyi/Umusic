@@ -2,8 +2,8 @@
 /**
  * Extension of Kohana_Security class
  *
- * @package     Misc
- * @category    Security
+ * @package     UMusic
+ * @category    Core Extensions
  * @author      Miodrag Tokić <mtokic@gmail.com>
  * @copyright   (c) 2011, Miodrag Tokić
  */

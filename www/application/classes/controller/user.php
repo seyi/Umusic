@@ -8,7 +8,7 @@ defined('SYSPATH') or die('No direct script access.');
  * Handles registration, login and logout
  * 
  * @package    UMusic
- * @category   Base
+ * @category   Controllers
  * @author     UMusic Team
  * @copyright  (c) 2011-2012 UMusic Team
  * @license    http://umusic.github.com/license
@@ -17,12 +17,17 @@ class Controller_User extends Controller_Main {
 
     private $user;
 
+    /**
+     * Initialize the session
+     */
     public function before() {
         parent::before();
-        $this->database = Database::instance();
         $this->user = Session::instance()->get('user');
     }
 
+    /**
+     * The user index page for users that aren't logged in
+     */
     public function action_index() {
         if ($this->user)
             $this->request->redirect('user/welcome');
@@ -30,6 +35,9 @@ class Controller_User extends Controller_Main {
         $this->view->partial('content', 'content/user/index');
     }
 
+    /**
+     * The welcome page for known users
+     */
     public function action_welcome() {
         if (!$this->user)
             $this->request->redirect('user/index');
@@ -38,6 +46,9 @@ class Controller_User extends Controller_Main {
         $this->view->partial('content', 'content/user/welcome');
     }
 
+    /**
+     * The register page
+     */
     public function action_register() {
         if ($this->request->method() == 'POST') {
             try {
@@ -69,6 +80,9 @@ class Controller_User extends Controller_Main {
         $this->view->set('token', Security::token());
     }
 
+    /**
+     * The login page
+     */
     public function action_login() {
         if ($this->request->method() == 'POST') {
             $post = Validation::factory($this->request->post())
@@ -88,7 +102,6 @@ class Controller_User extends Controller_Main {
             $errors = Arr::merge($errors, $post->errors('user'));
             $this->view->set('errors', $errors);
             $this->view->set('values', $this->request->post());
-            echo "<pre>" . Debug::dump($errors) . "</pre>";
         }
         if ($this->user)
             $this->request->redirect('user/welcome');
@@ -99,6 +112,13 @@ class Controller_User extends Controller_Main {
         $this->view->set('token', Security::token());
     }
 
+    /**
+     * Signs a user in. 
+     * 
+     * [!!] This function does not check if the user is initialized or if the password is correct.
+     * 
+     * @param Model_User The user that has to be logged in 
+     */
     private function _login($user) {
         $this->user = $user;
         $this->session->set('user', $user);
