@@ -103,12 +103,12 @@ Kohana::modules(array(
 	 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	 'database'   => MODPATH.'database',   // Database access
 	 'image'      => MODPATH.'image',      // Image manipulation
-	 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	 'unittest'   => MODPATH.'unittest',   // Unit testing
 	 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
     
-     'KOstache'   => MODPATH.'KOstache',   // Mustache for Kohana
-	 'bonafide'   => MODPATH.'bonafide',  // Authentication
+         'KOstache'   => MODPATH.'KOstache',   // Mustache for Kohana
+	 'jelly'      => MODPATH.'jelly',      // Object Relationship Mapping
+         'acl'        => MODPATH.'acl',        // Vendo ACL
 	));
 
 /**
