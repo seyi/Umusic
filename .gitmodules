@@ -25,3 +25,9 @@
 [submodule "kohana/modules/KOstache"]
 	path = kohana/modules/KOstache
 	url = https://github.com/zombor/KOstache.git
+[submodule "kohana/modules/jelly"]
+	path = kohana/modules/jelly
+	url = https://github.com/creatoro/jelly.git
+[submodule "kohana/modules/acl"]
+	path = kohana/modules/acl
+	url = https://github.com/vendo/acl.git
