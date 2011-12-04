@@ -5,7 +5,7 @@ return array
 	'umusic' => array(
 	    'type'       => 'pdo',
 	    'connection' => array(
-	        'dsn'        => 'sqlite:/umusic_data/umusic.sqlite',
+	        'dsn'        => 'sqlite:'.APPPATH.'data/umusic.sqlite',
 	        'persistent' => FALSE,
 	    ),
 	    'table_prefix' => '',

@@ -2,9 +2,17 @@
 
 defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * Umusic API controller
+ * 
+ * @package    UMusic
+ * @category   Base
+ * @author     UMusic Team
+ * @copyright  (c) 2011-2012 UMusic Team
+ * @license    http://umusic.github.com/license
+ */
 class Controller_Api extends Controller {
 
-    private $database;
     private $result;
 
     public function before() {
