@@ -19,15 +19,9 @@
 [submodule "kohana/modules/image"]
 	path = kohana/modules/image
 	url = https://github.com/kohana/image
-[submodule "kohana/modules/orm"]
-	path = kohana/modules/orm
-	url = https://github.com/kohana/orm
 [submodule "kohana/modules/unittest"]
 	path = kohana/modules/unittest
 	url = https://github.com/kohana/unittest
 [submodule "kohana/modules/KOstache"]
 	path = kohana/modules/KOstache
 	url = https://github.com/zombor/KOstache.git
-[submodule "kohana/modules/bonafide"]
-	path = kohana/modules/bonafide
-	url = https://github.com/shadowhand/bonafide.git
