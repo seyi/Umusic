@@ -64,7 +64,7 @@ class Controller_User extends Controller_Main {
                 $this->_login($user);
             } catch (Jelly_Validation_Exception $e) {
                 echo "Error.";
-                $errors = $e->errors('user');
+                $errors = $e->errors('validation');
                 $errors = Arr::flatten($errors);
                 $this->view->set('errors', $errors);
                 $this->view->set('values', $this->request->post());
@@ -99,7 +99,7 @@ class Controller_User extends Controller_Main {
                 else
                     $errors['password'] = __("Username or password incorrect.");
             }
-            $errors = Arr::merge($errors, $post->errors('user'));
+            $errors = Arr::merge($errors, $post->errors('validation/user'));
             $this->view->set('errors', $errors);
             $this->view->set('values', $this->request->post());
         }
