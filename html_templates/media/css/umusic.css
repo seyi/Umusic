@@ -1,0 +1,94 @@
+html {
+	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+}
+
+/*
+Header
+*/
+
+header {
+	background-image: -webkit-linear-gradient(bottom, rgb(40,40,40) 0%, rgb(90,90,90) 100%);
+	height: 60px;
+	position: relative;
+}
+
+header #logo {
+	
+}
+
+header #logo img {
+	
+}
+
+header .menu {
+	display: inline;
+	margin-left: 20px;
+}
+
+header .menu a, header #user a {
+	color: #fff;
+	font-size: 1.2em;
+	line-height: 20px;
+	padding: 20px 5px;
+}
+
+header .menu a:link, header #user a:link {
+	text-decoration: none;
+}
+
+header .menu a:hover, header #user a:hover {
+	background-image: -webkit-linear-gradient(bottom, rgb(50,50,50) 0%, rgb(100,100,100) 100%);
+}
+
+header .menu {
+	
+}
+
+header #user {
+	position: absolute;
+	right: 0;
+}
+
+/*
+Content
+*/
+#main {
+	
+}
+
+#main h1 {
+	
+}
+
+#main p {
+	
+}
+
+
+/*
+Footer
+*/
+
+#music {
+	
+}
+
+#music #current {
+	
+}
+
+#music #current #controls {
+	
+}
+
+#music #current .item {
+	
+}
+
+#music #playlist {
+	
+}
+
+#music #playlist .item {
+	
+}

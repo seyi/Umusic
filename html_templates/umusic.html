@@ -1,49 +1,59 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html class="no-js" lang="en">
 <head>
-<title>Umusic</title>
-<link href="umusic.css" rel="stylesheet" type="text/css" media="all">
+  <meta charset="utf-8">
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="media/css/html5.css">
+  <link rel="stylesheet" href="media/css/umusic.css">
+  <script src="media/js/modernizr.js"></script>
 </head>
 
 <body>
-<div id="main_container">
-  <div id="header_container">
-    <div id="header"> <a href="/" id="logo" class="main_umusic"> </a>
-      <div id="search">
-        <form accept-charset="UTF-8" action="/" class="search" method="get">
-          <input type="text" id="query" name="q" placeholder="Search"/>
-          <input type="submit" id="search_submit" value=" "/>
-        </form>
-      </div>
+  <div id="container">
+    <header>
+		<a id="logo" href="{{base}}"><img src="media/img/logo.png" alt="Umusic" /></a>
+		<div class="menu">
+			<a href="{{base}}">Search</a>
+			<a href="{{base}}music/playlist">My Playlist</a>
+		</div>
+		<div id="user">
+			<!--{{#user}}
+				<a href="#user" class="action user"><img src="{{user.gravatar}}" />{{user.username}}</a>
+			{{/user}}
+			{{^user}}-->
+				<a href="#signin-register" class="action user">Sign in / Register</a>
+			<!--{{/user}}-->
+		</div>
+    </header>
+    <div id="main" role="main">
+		<h1>Content</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vestibulum tortor odio, vestibulum euismod diam. Ut laoreet rutrum nunc, vestibulum ornare urna pulvinar dignissim. Fusce ac tortor urna, vestibulum malesuada magna. Morbi leo lacus, pellentesque vel scelerisque eu, rhoncus sit amet sem. Nulla dui ante, tempus quis pretium non, imperdiet non dolor. Ut eu tortor ut nunc volutpat consectetur in vitae lectus. Curabitur id turpis ligula. Fusce sagittis lobortis sagittis. Etiam a lectus lacinia lacus porttitor vulputate ut sit amet odio. Phasellus pharetra tellus quis lacus sollicitudin vel euismod velit placerat. In interdum elementum tempor. Curabitur molestie, diam ut sagittis tristique, eros velit ornare eros, vitae pulvinar diam turpis vel ligula.</p>
+    </div>
+    <div id="music">
+    	<div id="current">
+    		<div id="controls">
+    			<a href="#playpause">pause</a>
+    			<a href="#next">next</a>
+    		</div>
+    		<div class="item">
+    			<h1>Just The Way ...</h1>
+    			<h2>Bruno Mars</h2>
+    			<img src="media/img/album_art.jpg" alt="Album Art" />
+    		</div>
+    	</div>
+    	<div id="playlist">
+    		<div class="item">
+    			<h1>Just The Way ...</h1>
+    			<h2>Bruno Mars</h2>
+    			<img src="media/img/album_art.jpg" alt="Album Art" />
+    		</div>
+    	</div>
     </div>
   </div>
-  <div id="wrapper"> 
-  	<div id="results">
-    	<p>
-        In Cicero's time there were in fact two schools claiming to be descended from the First Academy, established by Plato. Cicero studied briefly in both the Old Academy and the New Academy; the differences between the two need not concern us. What they shared was their basic commitment to skepticism: a belief that human beings cannot be certain in their knowledge about the world, and therefore no philosophy can be said to be true. The Academic Skeptics offered little in the way of positive argument themselves; they mostly criticized the arguments of others.
 
-This can be annoying, but it requires real mental abilities, including the ability to see all sides of an issue and to understand and accept that any belief, no matter how cherished, is only provisional and subject to change later if a better argument presents itself. It is the approach which underlies the modern scientific method, though the Academics did not use it in that way. Even something like evolution, for which there is mountains of evidence and seemingly no resonable alternative, is treated as a theory subject to change if needed rather than an eternal truth.
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="media/js/jquery.js"><\/script>')</script>
+  <script defer src="js/umusic.js"></script>
 
-And it is this approach which Cicero embraced. This is not surprising if we consider again why he was interested in philosophy in the first place. As a lawyer, he would need to see as many sides of an argument as possible in order to argue his clients' cases effectively. He would have to marshal all the available evidence in a methodical way, so as to make the strongest possible case, and he would have to accept that he might at any time have to deal with new evidence or new issues, forcing him to totally reconsider his strategies. As a politician, he would need a similar grasp of the issues and a similar degree of flexibility in order to speak and to act effectively. A lawyer or politician who fanatically sticks to a particular point of view and cannot change is not likely to be successful. Adopting the teachings of the Academy also allowed Cicero to pick and choose whatever he wanted from the other philosophical schools, and he claims to do this at various points in his writings. Finally, his allegiance to the Academy helps to explain his use of the dialogue form: it enables Cicero to put a number of arguments in the mouths of others without having to endorse any particular position himself.
-In Cicero's time there were in fact two schools claiming to be descended from the First Academy, established by Plato. Cicero studied briefly in both the Old Academy and the New Academy; the differences between the two need not concern us. What they shared was their basic commitment to skepticism: a belief that human beings cannot be certain in their knowledge about the world, and therefore no philosophy can be said to be true. The Academic Skeptics offered little in the way of positive argument themselves; they mostly criticized the arguments of others.
-
-This can be annoying, but it requires real mental abilities, including the ability to see all sides of an issue and to understand and accept that any belief, no matter how cherished, is only provisional and subject to change later if a better argument presents itself. It is the approach which underlies the modern scientific method, though the Academics did not use it in that way. Even something like evolution, for which there is mountains of evidence and seemingly no resonable alternative, is treated as a theory subject to change if needed rather than an eternal truth.
-
-And it is this approach which Cicero embraced. This is not surprising if we consider again why he was interested in philosophy in the first place. As a lawyer, he would need to see as many sides of an argument as possible in order to argue his clients' cases effectively. He would have to marshal all the available evidence in a methodical way, so as to make the strongest possible case, and he would have to accept that he might at any time have to deal with new evidence or new issues, forcing him to totally reconsider his strategies. As a politician, he would need a similar grasp of the issues and a similar degree of flexibility in order to speak and to act effectively. A lawyer or politician who fanatically sticks to a particular point of view and cannot change is not likely to be successful. Adopting the teachings of the Academy also allowed Cicero to pick and choose whatever he wanted from the other philosophical schools, and he claims to do this at various points in his writings. Finally, his allegiance to the Academy helps to explain his use of the dialogue form: it enables Cicero to put a number of arguments in the mouths of others without having to endorse any particular position himself.
-In Cicero's time there were in fact two schools claiming to be descended from the First Academy, established by Plato. Cicero studied briefly in both the Old Academy and the New Academy; the differences between the two need not concern us. What they shared was their basic commitment to skepticism: a belief that human beings cannot be certain in their knowledge about the world, and therefore no philosophy can be said to be true. The Academic Skeptics offered little in the way of positive argument themselves; they mostly criticized the arguments of others.
-
-This can be annoying, but it requires real mental abilities, including the ability to see all sides of an issue and to understand and accept that any belief, no matter how cherished, is only provisional and subject to change later if a better argument presents itself. It is the approach which underlies the modern scientific method, though the Academics did not use it in that way. Even something like evolution, for which there is mountains of evidence and seemingly no resonable alternative, is treated as a theory subject to change if needed rather than an eternal truth.
-
-And it is this approach which Cicero embraced. This is not surprising if we consider again why he was interested in philosophy in the first place. As a lawyer, he would need to see as many sides of an argument as possible in order to argue his clients' cases effectively. He would have to marshal all the available evidence in a methodical way, so as to make the strongest possible case, and he would have to accept that he might at any time have to deal with new evidence or new issues, forcing him to totally reconsider his strategies. As a politician, he would need a similar grasp of the issues and a similar degree of flexibility in order to speak and to act effectively. A lawyer or politician who fanatically sticks to a particular point of view and cannot change is not likely to be successful. Adopting the teachings of the Academy also allowed Cicero to pick and choose whatever he wanted from the other philosophical schools, and he claims to do this at various points in his writings. Finally, his allegiance to the Academy helps to explain his use of the dialogue form: it enables Cicero to put a number of arguments in the mouths of others without having to endorse any particular position himself.
-        </p>
-    </div>
-  </div>
-  <div id="stream">
-  	<div id="stream_left">
-    </div>
-    <div id="stream_right">
-    </div>
-  </div>
-</div>
 </body>
 </html>
