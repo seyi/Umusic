@@ -1,5 +1,6 @@
-html {
+body {
 	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+	color: #333;
 }
 
 /*
@@ -10,6 +11,7 @@ header {
 	background-image: -webkit-linear-gradient(bottom, rgb(40,40,40) 0%, rgb(90,90,90) 100%);
 	height: 60px;
 	position: relative;
+	padding: 0 30px;
 }
 
 header #logo {
@@ -22,6 +24,7 @@ header #logo img {
 
 header .menu {
 	display: inline;
+	position: relative;
 	margin-left: 20px;
 }
 
@@ -47,13 +50,14 @@ header .menu {
 header #user {
 	position: absolute;
 	right: 0;
+	top: 20px;
 }
 
 /*
 Content
 */
 #main {
-	
+	margin: 0 30px;
 }
 
 #main h1 {
@@ -64,31 +68,187 @@ Content
 	
 }
 
+#main .item {
+	background-color: #CCC;
+	border-radius: 5px;
+	width: 500px;
+	position: relative;
+	padding: 5px;
+	margin-bottom: 5px;
+}
+
+#main .item:nth-child(2n) {
+	background-color: #999;
+}
+
+#main .item:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+#main .item h1, #main .item h2 {
+	margin-top: 2px;
+}
+
+#main .item h1 {
+	font-size: 20px;
+	margin-bottom: 0;
+}
+
+#main .item h2 {
+	font-size: 15px;
+	margin-bottom: 10px;
+}
+
+#main .item img {
+	width: 75px;
+	height: 75px;
+	float: left;
+	margin-right: 5px;
+	border-radius: 5px;
+}
+
+#main .item .info {
+	
+}
+
+#main .item .interaction {
+	position: absolute;
+	right: 5px;
+	bottom: 5px;
+}
+
+#main .item a.add, #main .item a.dontlike {
+	background: #333;
+	color: #fff;
+	text-decoration: none;
+	padding: 5px;
+	border-radius: 5px;
+	display: inline-block;
+}
+
+#main .item a.add:hover {
+	background-color: #9fe683;
+	color: #000;
+}
+
+#main .item a.dontlike:hover {
+	background-color: #d7aba2;
+	color: #000;
+}
 
 /*
 Footer
 */
 
 #music {
-	
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 175px;
+	background-image: -webkit-linear-gradient(bottom, rgb(50,50,50) 0%, rgb(100,100,100) 100%);
+	overflow: hidden;
+	border-top: 1px solid #999;
 }
 
 #music #current {
-	
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 175px;
+	height: 175px;
+	background-color: rgba(255,255,255,.6);
+	overflow: hidden;
+	z-index: 2;
+	box-shadow: 1px 0px 5px #333;
 }
 
 #music #current #controls {
-	
+	position: absolute;
+	bottom: 0;
+	width: 175px;
+	height: 30px;
+	background-image: -webkit-linear-gradient(bottom, rgba(0,0,0,.6) 40%, rgba(0,0,0,0) 100%);
+	text-align: center;
 }
 
-#music #current .item {
-	
+#music #current #controls a:link {
+	color: #FFF;
+	text-decoration: none;
+}
+
+#music #current .item .info {
+	position: absolute;
+	width: 175px;
+	top: 0;
+	background-image: -webkit-linear-gradient(top, rgba(0,0,0,.6) 65%, rgba(0,0,0,0) 100%);
+	padding-bottom: 20px;
+}
+
+#music #current .item h1, #music #current .item h2 {
+	margin: 0;
+	padding: 3px;
+}
+
+#music #current .item h1 {
+	color: #FFF;
+	font-size: 15px;
+	text-shadow: 1px 1px 1px #000;
+}
+
+#music #current .item h2 {
+	color: #CCC;
+	font-size: 12px;
+	text-shadow: 1px 1px 1px #000;
+}
+
+#music #current .item img {
+	width: 175px;
+	height: 175px;
 }
 
 #music #playlist {
-	
+	position: absolute;
+	left: 165px;
+	padding-left: 25px;
+	right: 0;
+	overflow-x: auto;
+	white-space: nowrap;
 }
 
 #music #playlist .item {
-	
+	width: 120px;
+	height: 175px;
+	overflow: hidden;
+	display: inline-block;
+	position: relative;
+	margin: 2px;
+}
+
+#music #playlist .item h1, #music #playlist .item h2 {
+	position: absolute;
+	text-align: center;
+	color: #FFF;
+}
+
+#music #playlist .item h1 {
+	top: 125px;
+	font-size: 10px;
+	text-shadow: 1px 1px 1px #000;
+}
+
+#music #playlist .item h2 {
+	top: 140px;
+	color: #CCC;
+	font-size: 9px;
+	text-shadow: 1px 1px 1px #000;
+}
+
+#music #playlist .item img {
+	margin-top: 10px;
+	width: 110px;
+	height: 110px;
+	border-radius: 5px;
+	box-shadow: 3px 3px 8px #111;
 }
