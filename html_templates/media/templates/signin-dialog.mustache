@@ -1,0 +1,6 @@
+<form method="post" action="{{base}}user/signin">
+	Username: <input type="text" name="username" value="{{values.username}}" /> {{errors.username}} <br />
+	Password: <input type="password" name="password" value="" /> {{errors.password}} <br />
+        <input type="hidden" name="csrf" value="{{token}}" /> {{errors.csrf}} <br />
+	<input type="submit" name="login" value="Sign in" />
+</form>

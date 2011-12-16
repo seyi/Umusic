@@ -1,6 +1,15 @@
+@import "fancybox.css";
+
 body {
 	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
 	color: #333;
+}
+
+/*
+Hidden Elements
+*/
+#user-dialog {
+	display: none;
 }
 
 /*
