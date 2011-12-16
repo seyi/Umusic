@@ -45,6 +45,13 @@ class Model_User extends Jelly_Model implements Model_ACL_User {
                     array('strtolower'),
                 ),
             )),
+            'email' => Jelly::field('email', array(
+                'allow_null' => false,
+                'unique' => true,
+                'rules' => array(
+                    array('not_empty'),
+                ),
+            )),
             'password' => Jelly::field('string', array(
                 'allow_null' => false,
                 'rules' => array(

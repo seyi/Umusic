@@ -54,6 +54,7 @@ class Controller_User extends Controller_Main {
             try {
                 $user = Jelly::factory('user');
                 $user->username = $this->request->post('username');
+                $user->email = $this->request->post('email');
                 $user->password = $this->request->post('password');
 
                 $extra_rules = Validation::factory($this->request->post())
@@ -81,9 +82,9 @@ class Controller_User extends Controller_Main {
     }
 
     /**
-     * The login page
+     * The signin page
      */
-    public function action_login() {
+    public function action_signin() {
         if ($this->request->method() == 'POST') {
             $post = Validation::factory($this->request->post())
                     ->rule('username','not_empty')
@@ -106,9 +107,9 @@ class Controller_User extends Controller_Main {
         if ($this->user)
             $this->request->redirect('user/welcome');
 
-        $this->view->partial('content', 'content/user/login');
-        $this->view->partial('form', 'forms/login');
-        $this->view->set('form-url', 'user/login');
+        $this->view->partial('content', 'content/user/signin');
+        $this->view->partial('form', 'forms/signin');
+        $this->view->set('form-url', 'user/signin');
         $this->view->set('token', Security::token());
     }
 
@@ -125,13 +126,13 @@ class Controller_User extends Controller_Main {
         $this->request->redirect('user/welcome');
     }
 
-    public function action_logout() {
+    public function action_signout() {
         $this->_logout();
 
         if (!$this->user)
-            $this->request->redirect('user/login');
+            $this->request->redirect('user/signin');
 
-        $this->view->partial('content', 'content/user/logout');
+        $this->view->partial('content', 'content/user/signout');
     }
 
     private function _logout() {

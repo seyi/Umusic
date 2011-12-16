@@ -10,6 +10,10 @@ return array(
         'min_length' => 'The minimum length for a username is :param2 characters',
         'unique' => 'This username is already taken.',
     ),
+    'email' => array(
+        'not_empty' => 'Please enter an email address',
+        'unique' => 'This email address is already registered.',
+    ),
     'password' => array(
         'not_empty' => 'Please enter a password',
         'min_length' => 'The minimum length for a password is :param2 characters',
