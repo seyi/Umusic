@@ -133,7 +133,17 @@ class Controller_Api extends Controller {
         $this->session->set('user', $user);
         $this->respond("Successfully signed in",0,array('user' => $user->as_array()));
     }
-        
+    
+    public function action_signout() {
+        $this->_logout();
+    }
+
+    private function _logout() {
+        $this->user = null;
+        $this->session->set('user', $this->user);
+        $this->respond("Successfully signed out",0);
+    }
+    
     private function respond($message,$code=0,$data=array()) {
         echo json_encode(Arr::merge($data, array(
             'status' => $code,

@@ -16,7 +16,7 @@ $(document).ready(function(){
 	};
 	
 	// Load Mustache templates
-	templates = {'playlist-item':'','recommendation-item':'','register-dialog':'','signin-dialog':''};
+	templates = {'playlist-item':'','recommendation-item':'','register-dialog':'','signin-dialog':'','user-dialog':''};
 	$.each(templates,function(key){
 		$.get('media/templates/' + key + '.mustache', function(data){
 			templates[key] = data;
@@ -28,12 +28,27 @@ $(document).ready(function(){
 		var src = $(this);
 		
 		if(src.hasClass('user')){
+			variables.errors = {};
+			variables.values = {};
 			switch(src.attr('href')){
 				case '#signin-dialog':
 					$.fancybox(Mustache.to_html(templates['signin-dialog'],variables),fancybox_options);
 				break;
 				case '#register-dialog':
 					$.fancybox(Mustache.to_html(templates['register-dialog'],variables),fancybox_options);
+				break;
+				case '#user-dialog':
+					$.fancybox(Mustache.to_html(templates['user-dialog'],variables),fancybox_options);
+				break;
+				case '#signout':
+					$.get(variables.base + "api/signout", function(response) {
+						var info = $.parseJSON(response);
+						if(info.status == 0) {
+							$("#user").html('<a class="action user" href="#signin-dialog">Sign in</a><a class="action user" href="#register-dialog">Register</a>');
+							variables.user = false;
+							$.fancybox.close();
+						}
+					});
 				break;
 			}
 		}
