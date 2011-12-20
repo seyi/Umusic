@@ -5,7 +5,7 @@ defined('SYSPATH') or die('No direct access allowed.');
 return array
     (
     'dataset' => array(
-        'dir' => '/umusic_data/',
+        'dir' => APPPATH.'data/',
         'ext' => 'sqlite',
     ),
     'echonest' => array(

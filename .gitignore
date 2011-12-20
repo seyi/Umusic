@@ -18,3 +18,10 @@ Desktop.ini
 .buildpath
 .project
 .settings
+
+# SQlite databases
+www/application/data/artist_similarity.sqlite
+www/application/data/artist_term.sqlite
+www/application/data/lastfm_similars.sqlite
+www/application/data/lastfm_tags.sqlite
+www/application/data/track_metadata.sqlite
