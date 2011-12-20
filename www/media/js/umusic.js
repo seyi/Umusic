@@ -16,9 +16,17 @@ $(document).ready(function(){
 	};
 	
 	// Load Mustache templates
-	templates = {'playlist-item':'','recommendation-item':'','register-dialog':'','signin-dialog':'','user-dialog':''};
-	$.each(templates,function(key){
-		$.get('media/templates/' + key + '.mustache', function(data){
+	templates = {
+		'playlist-item':'partials/playlist-item',
+		'recommendation-item':'partials/recommendation-item',
+		'register-dialog':'dialogs/register',
+		'signin-dialog':'dialogs/signin',
+		'user-dialog':'dialogs/user',
+		'search-page':'page/search'
+	};
+	
+	$.each(templates,function(key,val){
+		$.get(variables.base + 'media/templates/' + val + '.mustache', function(data){
 			templates[key] = data;
 		});
 	});
@@ -51,6 +59,8 @@ $(document).ready(function(){
 					});
 				break;
 			}
+		} else if(src.hasClass('page')) {
+			
 		}
 		
 		return false;
