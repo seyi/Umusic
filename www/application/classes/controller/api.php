@@ -144,6 +144,27 @@ class Controller_Api extends Controller {
         $this->respond("Successfully signed out",0);
     }
     
+    public function action_search() {
+        if ($this->request->method() == 'POST') {
+            $title = $this->request->post('title');
+            $artist = $this->request->post('artist');
+            
+            try {
+                $res = DB::select('title','artist_name','release','duration')
+                    ->from('songs')
+                    ->where('artist_name','LIKE','%' . $artist . '%')
+                    ->and_where('title','LIKE','%' . $title . '%')
+                    ->limit(100)
+                    ->execute('umusic');
+                $this->respond('Success', 0, $res->as_array());
+            } catch (Exception $e) {
+                $this->respond('Failed', 1, $e->getMessage());
+            }
+        } else {
+            $this->respond('This method requires POST data',1);
+        }
+    }
+    
     private function respond($message,$code=0,$data=array()) {
         echo json_encode(Arr::merge($data, array(
             'status' => $code,

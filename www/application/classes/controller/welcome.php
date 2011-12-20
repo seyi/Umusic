@@ -13,36 +13,20 @@ defined('SYSPATH') or die('No direct script access.');
  * @copyright  (c) 2011-2012 UMusic Team
  * @license    http://umusic.github.com/license
  */
-class Controller_Welcome extends Controller_Main {
+class Controller_Welcome extends Controller {
 
-    
-
-    public function before() {
-        parent::before();
-         //load Million Song Dataset files
-        //$this->database->attach('artist_term', 'lastfm_similars', 'lastfm_tags', 'track_metadata');
-    }
+    /**
+     *
+     * @var View_Main 
+     */
+    public $view;
 
     public function action_index() {
-        $user = Jelly::query('user')->where('username', '=', 'hylke')->limit(1)->execute();
-                
-        if ($user->rowid){
-            $logged_in = $user->login('wachtwoord');
-        } else {
-            try {
-                $user = Jelly::factory('user');
-                $user->username = "hylke";
-                $user->password = "wachtwoord";
-                $user->save();
-            } catch (Jelly_Validation_Exception $e) {
-                // Get the error messages
-                $errors = $e->errors();
-            }
-        }
-
-        $this->view->partial('content', 'content/welcome');
+        $this->view = new View_Main();
+        $user = Session::instance()->get('user');
+        $this->view->bind('user', $user);
+        echo $this->view;
     }
-
 }
 
 // End Welcome
