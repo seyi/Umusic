@@ -16,8 +16,6 @@ defined('SYSPATH') or die('No direct script access.');
  */
 class Controller_Music extends Controller_Main {
 
-    private $user;
-
     public function before() {
         parent::before();
         //load Million Song Dataset files

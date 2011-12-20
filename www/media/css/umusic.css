@@ -1,5 +1,9 @@
 @import "fancybox.css";
 
+html {
+	overflow: hidden;
+}
+
 body {
 	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
 	color: #333;
@@ -66,7 +70,14 @@ header #user {
 Content
 */
 #main {
-	margin: 0 30px;
+	position: absolute;
+	top: 60px;
+	bottom: 175px;
+	overflow: auto;
+	right: 0;
+	left: 0;
+	padding-right: 30px;
+	padding-left: 30px;
 }
 
 #main h1 {

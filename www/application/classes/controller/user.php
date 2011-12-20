@@ -15,14 +15,11 @@ defined('SYSPATH') or die('No direct script access.');
  */
 class Controller_User extends Controller_Main {
 
-    private $user;
-
     /**
      * Initialize the session
      */
     public function before() {
         parent::before();
-        $this->user = Session::instance()->get('user');
     }
 
     /**
@@ -58,8 +55,7 @@ class Controller_User extends Controller_Main {
                 $user->password = $this->request->post('password');
 
                 $extra_rules = Validation::factory($this->request->post())
-                        ->rule('password_confirm', 'matches', array(':validation', ':field', 'password'))
-                        ->rule('csrf', 'Security::csrf');
+                        ->rule('password_confirm', 'matches', array(':validation', ':field', 'password'));
 
                 $user->save($extra_rules);
                 $this->_login($user);
@@ -78,7 +74,6 @@ class Controller_User extends Controller_Main {
         $this->view->partial('content', 'content/user/register');
         $this->view->partial('form', 'forms/register');
         $this->view->set('form-url', 'user/register');
-        $this->view->set('token', Security::token());
     }
 
     /**
@@ -88,8 +83,7 @@ class Controller_User extends Controller_Main {
         if ($this->request->method() == 'POST') {
             $post = Validation::factory($this->request->post())
                     ->rule('username','not_empty')
-                    ->rule('password','not_empty')
-                    ->rule('csrf', 'Security::csrf');
+                    ->rule('password','not_empty');
             
             $errors = array();
             
@@ -110,7 +104,6 @@ class Controller_User extends Controller_Main {
         $this->view->partial('content', 'content/user/signin');
         $this->view->partial('form', 'forms/signin');
         $this->view->set('form-url', 'user/signin');
-        $this->view->set('token', Security::token());
     }
 
     /**

@@ -39,11 +39,19 @@ class Controller_Main extends Controller {
      */
     public $session;
     
+    /**
+     *
+     * @var Model_User 
+     */
+    protected $user;
+    
     public function before() {
         parent::before();
         $this->database = Database::instance();
         $this->session = Session::instance();
         $this->view = new View_Main();
+        $this->user = Session::instance()->get('user');
+        $this->view->bind('user', $this->user);
     }
     
     public function after() {

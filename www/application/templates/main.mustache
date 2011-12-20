@@ -1,34 +1,131 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html class="no-js" lang="en">
 <head>
-<title>Umusic</title>
-<link href="{{base}}media/css/style.css" rel="stylesheet" type="text/css" media="all">
+  <meta charset="utf-8">
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="{{base}}media/css/html5.css">
+  <link rel="stylesheet" href="{{base}}media/css/umusic.css">
+  <script src="{{base}}media/js/modernizr.js"></script>
 </head>
 
 <body>
-<div id="main_container">
-  <div id="header_container">
-    <div id="header"> <a href="{{base}}/" id="logo" class="main_umusic"></a>
-      {{#user}}<p style="color:white; float:left; font-size:2em;">DEBUG :: user signed in: {{username}} - go to <a href="{{base}}music/">music</a></p>{{/user}}{{^user}}<p style="color:white; float:left; font-size:2em;">DEBUG :: You are not logged in</p>{{/user}}
-      <div id="search">
-        <form accept-charset="UTF-8" action="{{base}}music/search" class="search" method="post">
-          <input type="text" id="query" name="q" placeholder="Search"/>
-          <input type="submit" id="search_submit" value=" "/>
-        </form>
-      </div>
+  <div class="popup" id="signin-dialog"></div>
+  <div class="popup" id="register-dialog"></div>
+
+  <div id="container">
+    <header>
+		<a id="logo" href="{{base}}"><img src="{{base}}media/img/logo.png" alt="Umusic" /></a>
+		<div class="menu">
+			<a href="{{base}}">Search</a>
+			<a href="{{base}}music/playlist">My Playlist</a>
+		</div>
+		<div id="user">
+			{{#user}}
+			<a class="action user" href="#user-dialog">Welcome, {{username}}</a> 
+			{{/user}}
+			{{^user}}
+			<a class="action user" href="#signin-dialog">Sign in</a><a class="action user" href="#register-dialog">Register</a>
+			{{/user}}
+		</div>
+    </header>
+    <div id="main" role="main">
+		<h1>Recommendations:</h1>
+		<div class="item">
+			<img src="{{base}}media/img/album_art/Continuum.jpg" alt="Album Art" />
+			<div class="info">
+				<h1>Stop This Train</h1>
+				<h2>John Mayer</h2>
+			</div>
+			<div class="interaction">
+				<a href="#" class="add">Add to playlist</a>
+				<a href="#" class="dontlike">I don't like this</a>
+			</div>
+		</div>
+		<div class="item">
+			<img src="{{base}}media/img/album_art/Battle Studies.jpg" alt="Album Art" />
+			<div class="info">
+				<h1>Assassin</h1>
+				<h2>John Mayer</h2>
+			</div>
+			<div class="interaction">
+				<a href="#" class="add">Add to playlist</a>
+				<a href="#" class="dontlike">I don't like this</a>
+			</div>
+		</div>
+		<div class="item">
+			<img src="{{base}}media/img/album_art/Battle Studies.jpg" alt="Album Art" />
+			<div class="info">
+				<h1>Who Says</h1>
+				<h2>John Mayer</h2>
+			</div>
+			<div class="interaction">
+				<a href="#" class="add">Add to playlist</a>
+				<a href="#" class="dontlike">I don't like this</a>
+			</div>
+		</div>
+	</div>
+    <div id="music">
+    	<div id="current">
+    		<div id="controls">
+    			<a href="#previous">pr</a>
+    			<a href="#playpause">pl/ps</a>
+    			<a href="#next">nx</a>
+    		</div>
+    		<div class="item">
+    			<img src="{{base}}media/img/album_art/Say.jpg" alt="Album Art" />
+    			<div class="info">
+    				<h1>Say</h1>
+    				<h2>John Mayer</h2>
+    			</div>
+    		</div>
+    	</div>
+    	<div id="playlist">
+    		<div class="item">
+    			<img src="{{base}}media/img/album_art/Room For Squares.jpg" alt="Album Art" />
+    			<div class="info">
+    				<h1>Your Body Is A Won...</h1>
+    				<h2>John Mayer</h2>
+    			</div>
+    		</div>
+    		<div class="item">
+    			<img src="{{base}}media/img/album_art/Where The Light Is.jpg" alt="Album Art" />
+    			<div class="info">
+    				<h1>In Your Athmosphere</h1>
+    				<h2>John Mayer</h2>
+    			</div>
+    		</div>
+    		<div class="item">
+    			<img src="{{base}}media/img/album_art/Room For Squares.jpg" alt="Album Art" />
+    			<div class="info">
+    				<h1>Neon</h1>
+    				<h2>John Mayer</h2>
+    			</div>
+    		</div>
+    		<div class="item">
+    			<img src="{{base}}media/img/album_art/Bruno.jpg" alt="Album Art" />
+    			<div class="info">
+    				<h1>Just The Way You Are</h1>
+    				<h2>Bruno Mars</h2>
+    			</div>
+    		</div>
+    		<div class="item">
+    			<img src="{{base}}media/img/album_art/Continuum.jpg" alt="Album Art" />
+    			<div class="info">
+    				<h1>Slow Dancing In A B...</h1>
+    				<h2>John Mayer</h2>
+    			</div>
+    		</div>
+    	</div>
     </div>
   </div>
-  <div id="wrapper"> 
-  	<div id="results">
-            {{>content}}
-    </div>
-  </div>
-  <div id="stream">
-  	<div id="stream_left">
-    </div>
-    <div id="stream_right">
-    </div>
-  </div>
-</div>
+
+  <script src="{{base}}media/js/jquery.js"></script>
+  <script defer src="{{base}}media/js/mustache.js"></script>
+  <script defer src="{{base}}media/js/fancybox.js"></script>
+  <script type="text/javascript">
+  	var base="{{base}}";
+  </script>
+  <script defer src="{{base}}media/js/umusic.js"></script>
+
 </body>
 </html>
