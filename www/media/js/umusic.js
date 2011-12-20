@@ -19,9 +19,9 @@ $(document).ready(function(){
 	templates = {
 		'playlist-item':'partials/playlist-item',
 		'recommendation-item':'partials/recommendation-item',
-		'register-dialog':'dialogs/register',
-		'signin-dialog':'dialogs/signin',
-		'user-dialog':'dialogs/user',
+		'register-dialog':'dialog/register',
+		'signin-dialog':'dialog/signin',
+		'user-dialog':'dialog/user',
 		'search-page':'page/search'
 	};
 	
