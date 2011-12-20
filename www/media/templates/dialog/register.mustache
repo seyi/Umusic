@@ -1,7 +1,13 @@
+<h1>Registration form</h1>
+<p>Please fill in the form to register for an Umusic account.</p>
 <form method="post" action="register">
-    Username: <input type="text" name="username" value="{{values.username}}" /> {{errors.username}} <br />
-    Email Address: <input type="text" name="email" value="{{values.email}}" /> {{errors.email}} <br />
-    Password: <input type="password" name="password" value="" /> {{errors.password}} <br />
-    Confirm: <input type="password" name="password_confirm" value="" /> {{errors.password_confirm}} <br />
+    <label>Username:</label>
+    <input type="text" name="username" value="{{values.username}}" /> <span class="form-error">{{errors.username}}</span> <br />
+    <label>Email Address:</label>
+    <input type="text" name="email" value="{{values.email}}" /> <span class="form-error">{{errors.email}}</span> <br />
+    <label>Password:</label>
+    <input type="password" name="password" value="" /> <span class="form-error">{{errors.password}}</span> <br />
+    <label>Confirm:</label>
+    <input type="password" name="password_confirm" value="" /> <span class="form-error">{{errors.password_confirm}}</span> <br />
     <input type="submit" name="register" value="Register" />
 </form>
