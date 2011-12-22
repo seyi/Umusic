@@ -4,8 +4,10 @@
   <meta charset="utf-8">
   <title>{{title}}</title>
   <link rel="stylesheet" href="{{base}}media/css/html5.css">
+  <link rel="stylesheet/less" type="text/css" href="{{base}}media/css/style.less.css">
   <link rel="stylesheet" href="{{base}}media/css/umusic.css">
   <script src="{{base}}media/js/modernizr.js"></script>
+  <script src="{{base}}media/js/less.js"></script>
 </head>
 
 <body>
@@ -16,8 +18,8 @@
     <header>
 		<a id="logo" href="{{base}}"><img src="{{base}}media/img/logo.png" alt="Umusic" /></a>
 		<div class="menu">
-			<a class="action page" href="{{base}}music/search">Search</a>
-			<a class="action page" href="{{base}}music/playlist">My Playlist</a>
+			<a class="action page" href="search">Search</a>
+			<a class="action page" href="playlist">My Playlist</a>
 		</div>
 		<div id="user">
 			{{#user}}

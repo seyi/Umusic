@@ -22,7 +22,8 @@ $(document).ready(function(){
 		'register-dialog':'dialog/register',
 		'signin-dialog':'dialog/signin',
 		'user-dialog':'dialog/user',
-		'search-page':'page/search'
+		'search-page':'page/search',
+		'playlist-page':'page/playlist'
 	};
 	
 	$.each(templates,function(key,val){
@@ -60,7 +61,7 @@ $(document).ready(function(){
 				break;
 			}
 		} else if(src.hasClass('page')) {
-			
+			$('#main').html(Mustache.to_html(templates[src.attr('href')+'-page'],variables));
 		}
 		
 		return false;
@@ -105,7 +106,17 @@ $(document).ready(function(){
 	
 });
 
-function getInfo(artist,title,callback) {
-	var url = 'http://developer.echonest.com/api/v4/song/search?api_key=4M0DFUG9R81A8U7OB&format=json&results=1&artist=' + artist + '&title=' + title + '&bucket=id:7digital-US&bucket=audio_summary&bucket=tracks';
-	$.get(url, callback);
+function get_artwork(artist, title) {
+	// cb4d0e82fd5feaceced5dcd045034065
+	$.get('http://ws.audioscrobbler.com/2.0/',{
+		method: 'track.getinfo',
+		api_key: 'cb4d0e82fd5feaceced5dcd045034065',
+		artist: artist,
+		track: title
+	},function(data){
+		var images = $('image',data);
+		var image = $(images[images.length - 1]).text();
+		
+		//RETURN IMAGE
+	});
 }
