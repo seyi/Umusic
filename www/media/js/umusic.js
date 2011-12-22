@@ -6,7 +6,25 @@ var templates;
 var echo;
 
 $(document).ready(function(){
-	var fancybox_options = {
+	var signin_options = {
+		width		: '50%',
+		height		: '45%',
+		autoSize	: false,
+		closeClick	: false,
+		openEffect	: 'none',
+		closeEffect	: 'none'
+	};
+        
+        var register_options = {
+		width		: '50%',
+		height		: '58%',
+		autoSize	: false,
+		closeClick	: false,
+		openEffect	: 'none',
+		closeEffect	: 'none'
+	};        
+        
+        var fancybox_options = {
 		width		: '70%',
 		height		: '70%',
 		autoSize	: false,
@@ -41,10 +59,10 @@ $(document).ready(function(){
 			variables.values = {};
 			switch(src.attr('href')){
 				case '#signin-dialog':
-					$.fancybox(Mustache.to_html(templates['signin-dialog'],variables),fancybox_options);
+					$.fancybox(Mustache.to_html(templates['signin-dialog'],variables),signin_options);
 				break;
 				case '#register-dialog':
-					$.fancybox(Mustache.to_html(templates['register-dialog'],variables),fancybox_options);
+					$.fancybox(Mustache.to_html(templates['register-dialog'],variables),register_options);
 				break;
 				case '#user-dialog':
 					$.fancybox(Mustache.to_html(templates['user-dialog'],variables),fancybox_options);
