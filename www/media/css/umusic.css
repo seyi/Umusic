@@ -10,29 +10,13 @@ body {
 }
 
 /*
-Hidden Elements
-*/
-#user-dialog {
-	display: none;
-}
-
-/*
 Header
 */
 
 header {
-	background-image: -webkit-linear-gradient(bottom, rgb(40,40,40) 0%, rgb(90,90,90) 100%);
 	height: 60px;
 	position: relative;
 	padding: 0 30px;
-}
-
-header #logo {
-	
-}
-
-header #logo img {
-	
 }
 
 header .menu {
@@ -50,14 +34,6 @@ header .menu a, header #user a {
 
 header .menu a:link, header #user a:link {
 	text-decoration: none;
-}
-
-header .menu a:hover, header #user a:hover {
-	background-image: -webkit-linear-gradient(bottom, rgb(50,50,50) 0%, rgb(100,100,100) 100%);
-}
-
-header .menu {
-	
 }
 
 header #user {
@@ -169,7 +145,6 @@ Footer
 	bottom: 0;
 	width: 100%;
 	height: 175px;
-	background-image: -webkit-linear-gradient(bottom, rgb(50,50,50) 0%, rgb(100,100,100) 100%);
 	overflow: hidden;
 	border-top: 1px solid #999;
 }
@@ -191,7 +166,6 @@ Footer
 	bottom: 0;
 	width: 175px;
 	height: 30px;
-	background-image: -webkit-linear-gradient(bottom, rgba(0,0,0,.6) 40%, rgba(0,0,0,0) 100%);
 	text-align: center;
 }
 
@@ -204,7 +178,6 @@ Footer
 	position: absolute;
 	width: 175px;
 	top: 0;
-	background-image: -webkit-linear-gradient(top, rgba(0,0,0,.6) 65%, rgba(0,0,0,0) 100%);
 	padding-bottom: 20px;
 }
 

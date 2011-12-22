@@ -1,0 +1,30 @@
+.border-radius (@radius) {
+	border-radius: @radius;
+	-moz-border-radius: @radius;
+	-webkit-border-radius: @radius;
+}
+
+.vertical-gradient(@startcolor: rgb(0,0,0), @endcolor: rgb(0,0,0), @startpercentage: 0%, @endpercentage: 100%) {
+	background-image: -webkit-linear-gradient(top, @startcolor @startpercentage, @endcolor @endpercentage);    
+	background-image: -moz-linear-gradient(top, @startcolor @startpercentage, @endcolor @endpercentage);
+}
+
+#music {
+	.vertical-gradient(rgb(100,100,100),rgb(50,50,50));
+}
+
+header {
+	.vertical-gradient(rgb(90,90,90),rgb(40,40,40));
+}
+
+header .menu a:hover, header #user a:hover {
+	.vertical-gradient(rgb(100,100,100),rgb(50,50,50));
+}
+
+#music #current #controls {
+	.vertical-gradient(rgba(0,0,0,0),rgba(0,0,0,.6),0%,60%);
+}
+
+#music #current .item .info {
+	.vertical-gradient(rgba(0,0,0,.6),rgba(0,0,0,0),65%,100%);
+}
