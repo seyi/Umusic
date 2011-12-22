@@ -119,22 +119,37 @@ $(document).ready(function(){
 					src.parent().html(Mustache.to_html(templates[action + '-dialog'],variables));
 				}
 			break;
+			case 'search':
+				if(info.status == 0) {
+					$('#main').html('<h1>Search Results:</h1>');
+					$.each(info.results, function(key,val){
+						var song = Mustache.to_html(templates['recommendation-item'],$.merge(val,variables));
+						get_artwork(val.artist_name,val.release,function(image){
+							$('img[alt="'+val.artist_name+'-'+val.release+'"]').attr('src',image);
+						});
+						$('#main').append(song);
+					});
+				} else {
+					alert(info.message);
+				}
+			break;
 		}
 	}
 	
 });
 
-function get_artwork(artist, title) {
-	// cb4d0e82fd5feaceced5dcd045034065
+function get_artwork(artist, album, callback) {
 	$.get('http://ws.audioscrobbler.com/2.0/',{
-		method: 'track.getinfo',
+		method: 'album.getinfo',
 		api_key: 'cb4d0e82fd5feaceced5dcd045034065',
 		artist: artist,
-		track: title
+		album: album
 	},function(data){
-		var images = $('image',data);
-		var image = $(images[images.length - 1]).text();
+		if($('lfm',data).attr('status') == 'ok') {
+			var images = $('image',data);
+			var image = $(images[images.length - 1]).text();
 		
-		//RETURN IMAGE
+			callback(image);
+		}
 	});
 }

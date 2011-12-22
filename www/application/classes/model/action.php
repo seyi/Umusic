@@ -28,6 +28,7 @@ class Model_Action extends Jelly_Model {
 
         $meta->fields(array(
             'rowid'     => Jelly::field('primary'),
+            'user_id'   => Jelly::field('Integer'),
             'song_id'   => Jelly::field('string'),
             'date'      => Jelly::field('timestamp', array(
                 'format'    => "Y-m-d H:i:s.000",

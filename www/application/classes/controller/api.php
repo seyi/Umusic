@@ -109,7 +109,7 @@ class Controller_Api extends Controller {
                 if($user && $user->login($this->request->post('password')))
                     $this->_login($user);
                 else
-                    $errors['password'] = __("Username or password incorrect.");
+                    $errors['password'] = "Username or password incorrect.";
             }
             $errors = Arr::merge($errors, $post->errors('validation/user'));
             $this->result['status'] = 2;
@@ -156,10 +156,38 @@ class Controller_Api extends Controller {
                     ->and_where('title','LIKE','%' . $title . '%')
                     ->limit(100)
                     ->execute('umusic');
-                $this->respond('Success', 0, $res->as_array());
+                
+                if($res->count() > 0)
+                    $this->respond('Success', 0, array('results' => $res->as_array()));
+                else
+                    $this->respond('No Results', 2);
             } catch (Exception $e) {
-                $this->respond('Failed', 1, $e->getMessage());
+                $this->respond('Failed', 1, array('error_message'=>$e->getMessage()));
             }
+        } else {
+            $this->respond('This method requires POST data',1);
+        }
+    }
+    
+    public function action_action() {
+        if ($this->request->method() == 'POST') {
+            if(!$this->user)
+                $this->respond('You are not signed in', 1);
+            
+            try {
+                $action = Jelly::factory('action');
+                $action->action = $this->request->post('action');
+                $action->song_id = $this->request->post('song_id');
+                $action->user_id = $this->user->rowid;
+                $action->save();
+                $this->respond('Success', 0);
+            } catch (Jelly_Validation_Exception $e) {
+                $this->respond('Validation Exception', 1, array('error'=>$e->errors()));
+            } catch (Exception $e) {
+                $this->respond('Failed', 1, array('error_message'=>$e->getTraceAsString()));
+                
+            }
+            
         } else {
             $this->respond('This method requires POST data',1);
         }
