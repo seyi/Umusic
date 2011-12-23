@@ -1,11 +1,11 @@
-<div class="item">
-	<img src="{{base}}media/img/album_art/Unknown.jpg" alt="{{artist_name}}-{{release}}" />
+<div class="item" id="{{track_id}}">
+	<img src="{{base}}external/artwork/{{artist_name}}/{{release}}" alt="{{artist_name}}-{{release}}" />
 	<div class="info">
 		<h1>{{title}}</h1>
 		<h2>{{artist_name}}</h2>
 	</div>
 	<div class="interaction">
-		<a href="#" class="add">Add to playlist</a>
-		<a href="#" class="dontlike">I don't like this</a>
+		<a class="action recommendation add" href="#">Add to playlist</a>
+		<a class="action recommendation remove"href="#">I don't like this</a>
 	</div>
 </div>

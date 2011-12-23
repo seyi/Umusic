@@ -150,7 +150,7 @@ class Controller_Api extends Controller {
             $artist = $this->request->post('artist');
             
             try {
-                $res = DB::select('title','artist_name','release','duration')
+                $res = DB::select('track_id','title','artist_name','release','duration')
                     ->from('songs')
                     ->where('artist_name','LIKE','%' . $artist . '%')
                     ->and_where('title','LIKE','%' . $title . '%')
@@ -177,7 +177,7 @@ class Controller_Api extends Controller {
             try {
                 $action = Jelly::factory('action');
                 $action->action = $this->request->post('action');
-                $action->song_id = $this->request->post('song_id');
+                $action->track_id = $this->request->post('track_id');
                 $action->user_id = $this->user->rowid;
                 $action->save();
                 $this->respond('Success', 0);

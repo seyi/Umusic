@@ -29,7 +29,7 @@ class Model_Action extends Jelly_Model {
         $meta->fields(array(
             'rowid'     => Jelly::field('primary'),
             'user_id'   => Jelly::field('Integer'),
-            'song_id'   => Jelly::field('string'),
+            'track_id'   => Jelly::field('string'),
             'date'      => Jelly::field('timestamp', array(
                 'format'    => "Y-m-d H:i:s.000",
                 'auto_now_create'   => true,
@@ -37,6 +37,7 @@ class Model_Action extends Jelly_Model {
             'action'    => Jelly::field('enum', array(
                 'choices'   => array(
                     'added',
+                    'removed',
                     'liked',
                     'disliked',
                     'played',

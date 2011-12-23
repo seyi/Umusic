@@ -80,6 +80,18 @@ $(document).ready(function(){
 			}
 		} else if(src.hasClass('page')) {
 			$('#main').html(Mustache.to_html(templates[src.attr('href')+'-page'],variables));
+		} else if (src.hasClass('recommendation')) {
+			var track_id = src.parent().parent().attr('id');
+			var action;
+			if(src.hasClass('add')) {
+				action = 'added';
+			} else {
+				action = 'removed';
+			}
+			
+			$.post(variables.base + 'api/action', {action:action, track_id:track_id}, function(response){
+				console.log(response);
+			});
 		}
 		
 		return false;
@@ -124,9 +136,6 @@ $(document).ready(function(){
 					$('#main').html('<h1>Search Results:</h1>');
 					$.each(info.results, function(key,val){
 						var song = Mustache.to_html(templates['recommendation-item'],$.merge(val,variables));
-						get_artwork(val.artist_name,val.release,function(image){
-							$('img[alt="'+val.artist_name+'-'+val.release+'"]').attr('src',image);
-						});
 						$('#main').append(song);
 					});
 				} else {
@@ -137,19 +146,3 @@ $(document).ready(function(){
 	}
 	
 });
-
-function get_artwork(artist, album, callback) {
-	$.get('http://ws.audioscrobbler.com/2.0/',{
-		method: 'album.getinfo',
-		api_key: 'cb4d0e82fd5feaceced5dcd045034065',
-		artist: artist,
-		album: album
-	},function(data){
-		if($('lfm',data).attr('status') == 'ok') {
-			var images = $('image',data);
-			var image = $(images[images.length - 1]).text();
-		
-			callback(image);
-		}
-	});
-}
