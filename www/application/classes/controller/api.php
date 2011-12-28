@@ -18,25 +18,25 @@ class Controller_Api extends Controller {
      * @var array 
      */
     private $result;
-    
+
     /**
      *
      * @var boolean
      */
     private $render = true;
-    
+
     /**
      *
      * @var Database 
      */
     private $database;
-    
+
     /**
      *
      * @var Session 
      */
     private $session;
-    
+
     /**
      *
      * @var Model_User 
@@ -46,29 +46,29 @@ class Controller_Api extends Controller {
     public function before() {
         parent::before();
         $this->database = Database::instance();
-        $this->database->attach('artist_term', 'lastfm_similars', 'lastfm_tags', 'track_metadata');
+        $this->database->attach('lastfm_tags', 'track_metadata');
         $this->response->headers("Content-type", "text/plain");
         $this->session = Session::instance();
         $this->user = $this->session->get('user');
         $this->result = array();
     }
-    
+
     public function action_index() {
         $this->result = Arr::merge($this->result, array(
-            'status' => 0,
-            'message' => 'Welcome',
-        ));
+                    'status' => 0,
+                    'message' => 'Welcome',
+                ));
     }
-    
+
     public function action_log() {
-        if($this->request->method() == 'POST') {
+        if ($this->request->method() == 'POST') {
             $log = json_decode($this->request->get('log'));
             print_r($log);
         } else {
-            $this->respond('This method requires POST data',1);
+            $this->respond('This method requires POST data', 1);
         }
     }
-    
+
     public function action_register() {
         if ($this->request->method() == 'POST') {
             try {
@@ -89,24 +89,24 @@ class Controller_Api extends Controller {
                 unset($this->result['values']['password']);
                 unset($this->result['values']['password_confirm']);
             } catch (Exception $e) {
-                $this->respond($e->getMessage(),1);
+                $this->respond($e->getMessage(), 1);
             }
         } else {
-            $this->respond('This method requires POST data',1);
+            $this->respond('This method requires POST data', 1);
         }
     }
-    
+
     public function action_signin() {
         if ($this->request->method() == 'POST') {
             $post = Validation::factory($this->request->post())
-                    ->rule('username','not_empty')
-                    ->rule('password','not_empty');
-            
+                    ->rule('username', 'not_empty')
+                    ->rule('password', 'not_empty');
+
             $errors = array();
-            
+
             if ($post->check()) {
                 $user = Jelly::query('user')->by_username($this->request->post('username'))->execute();
-                if($user && $user->login($this->request->post('password')))
+                if ($user && $user->login($this->request->post('password')))
                     $this->_login($user);
                 else
                     $errors['password'] = "Username or password incorrect.";
@@ -117,10 +117,10 @@ class Controller_Api extends Controller {
             $this->result['values'] = $this->request->post();
             unset($this->result['values']['password']);
         } else {
-            $this->respond('This method requires POST data',1);
+            $this->respond('This method requires POST data', 1);
         }
     }
-    
+
     /**
      * Signs a user in. 
      * 
@@ -131,9 +131,9 @@ class Controller_Api extends Controller {
     private function _login($user) {
         $this->user = $user;
         $this->session->set('user', $user);
-        $this->respond("Successfully signed in",0,array('user' => $user->as_array()));
+        $this->respond("Successfully signed in", 0, array('user' => $user->as_array()));
     }
-    
+
     public function action_signout() {
         $this->_logout();
     }
@@ -141,39 +141,39 @@ class Controller_Api extends Controller {
     private function _logout() {
         $this->user = null;
         $this->session->set('user', $this->user);
-        $this->respond("Successfully signed out",0);
+        $this->respond("Successfully signed out", 0);
     }
-    
+
     public function action_search() {
         if ($this->request->method() == 'POST') {
             $title = $this->request->post('title');
             $artist = $this->request->post('artist');
-            
+
             try {
-                $res = DB::select('track_id','title','artist_name','release','duration')
-                    ->from('songs')
-                    ->where('artist_name','LIKE','%' . $artist . '%')
-                    ->and_where('title','LIKE','%' . $title . '%')
-                    ->limit(100)
-                    ->execute('umusic');
-                
-                if($res->count() > 0)
+                $res = DB::select('track_id', 'title', 'artist_name', 'release', 'duration')
+                        ->from('songs')
+                        ->where('artist_name', 'LIKE', '%' . $artist . '%')
+                        ->and_where('title', 'LIKE', '%' . $title . '%')
+                        ->limit(100)
+                        ->execute('umusic');
+
+                if ($res->count() > 0)
                     $this->respond('Success', 0, array('results' => $res->as_array()));
                 else
                     $this->respond('No Results', 2);
             } catch (Exception $e) {
-                $this->respond('Failed', 1, array('error_message'=>$e->getMessage()));
+                $this->respond('Failed', 1, array('error_message' => $e->getMessage()));
             }
         } else {
-            $this->respond('This method requires POST data',1);
+            $this->respond('This method requires POST data', 1);
         }
     }
-    
+
     public function action_action() {
         if ($this->request->method() == 'POST') {
-            if(!$this->user)
+            if (!$this->user)
                 $this->respond('You are not signed in', 1);
-            
+
             try {
                 $action = Jelly::factory('action');
                 $action->action = $this->request->post('action');
@@ -182,27 +182,59 @@ class Controller_Api extends Controller {
                 $action->save();
                 $this->respond('Success', 0);
             } catch (Jelly_Validation_Exception $e) {
-                $this->respond('Validation Exception', 1, array('error'=>$e->errors()));
+                $this->respond('Validation Exception', 1, array('error' => $e->errors()));
             } catch (Exception $e) {
-                $this->respond('Failed', 1, array('error_message'=>$e->getTraceAsString()));
-                
+                $this->respond('Failed', 1, array('error_message' => $e->getTraceAsString()));
             }
-            
         } else {
-            $this->respond('This method requires POST data',1);
+            $this->respond('This method requires POST data', 1);
         }
     }
-    
-    private function respond($message,$code=0,$data=array()) {
-        echo json_encode(Arr::merge($data, array(
-            'status' => $code,
-            'message' => $message,
-        )));
-        $this->render = false;
+
+    public function action_user_recommendations() {
+        $limit = 100;
+        
+        if (!$this->user)
+            $this->respond('You are not signed in', 1);
+        
+        $usertag = Jelly::query('usertag')->where('user_id', '=', $this->user->rowid)->limit(1)->select();
+        if($usertag) {
+            $rc = new Umusic_Recommendation($this->database);
+            $recommendations = $rc->get_recommendations(json_decode($usertag->get('tags')));
+            
+            $output = array(); $i = 0;
+            foreach ($recommendations as $track=>$sim) {
+                if($i > $limit)
+                    break;
+                else if($sim < 0.5)
+                    continue;
+                else {
+                    $track = DB::select('track_id', 'title', 'artist_name', 'release', 'duration')
+                        ->from('songs')
+                        ->where('track_id', '=', $track)
+                        ->limit(1)
+                        ->cached()
+                        ->execute()
+                        ->as_array();
+                    $track = $track[0];
+                    
+                    $track['sim'] = $sim;
+                    $output[] = $track;
+                }
+            }
+            $this->result['data'] = $output;
+        }
     }
-    
+
+    private function respond($message, $code=0, $data=array()) {
+        exit(json_encode(Arr::merge($data, array(
+                            'status' => $code,
+                            'message' => $message,
+                        ))));
+    }
+
     public function after() {
-        if($this->render)
+        if ($this->render)
             echo json_encode($this->result);
         parent::after();
     }
