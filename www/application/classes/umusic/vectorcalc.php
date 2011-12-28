@@ -3,7 +3,7 @@
 defined('SYSPATH') or die('No direct script access.');
 
 /**
- * Umusic Helper class
+ * Umusic Vector calculation and manipulation class
  * 
  * @package    UMusic
  * @category   Base
@@ -26,7 +26,7 @@ class Umusic_Vectorcalc {
         $this->database = $database;
     }
 
-    public function get_track_vector($tid, $find_id=false) {
+    public function calc_track_vector($tid, $find_id=false) {
         $result = array();
 
         $tags = DB::select('usedtags.tag', 'tid_tag.val')
@@ -45,7 +45,7 @@ class Umusic_Vectorcalc {
         return $result;
     }
 
-    public function get_user_vector(Model_User $user) {
+    public function calc_user_vector(Model_User $user) {
         $user_id = $user->rowid;
 
         // Initialize Result vector for this user
@@ -57,7 +57,7 @@ class Umusic_Vectorcalc {
         // Get user actions
         $actions = Jelly::query('action')->where('user_id', '=', $user_id)->select();
         foreach ($actions as $action) {
-            $tags = $this->get_track_vector($action->track_id, true);
+            $tags = $this->calc_track_vector($action->track_id, true);
 
             foreach ($tags as $tag => $val) {
                 $rating = $val * $this->ratings[$action->action];

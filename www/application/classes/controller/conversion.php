@@ -32,7 +32,7 @@ class Controller_Conversion extends Controller {
         $count = $users->count();
         $i = 0;
         foreach ($users as $user) {
-            $tags = $this->vc->get_user_vector($user);
+            $tags = $this->vc->calc_user_vector($user);
             $vector = Umusic_Vectorcalc::simplify_vector($tags);
             $vector = Umusic_Vectorcalc::normalize($vector);
             Jelly::factory("usertag")->set(array(
@@ -50,16 +50,16 @@ class Controller_Conversion extends Controller {
         DB::delete("tracktags")->execute();
 
         $count = DB::select(array("COUNT(*)", "num_tracks"))->from("tids")->execute()->get("num_tracks");
-
+        
         $this->log($count . " tracks in the database.");
         
         $this->log("(".  number_format(0,3)."%)\tStarting...");
         
         for ($record = 0; $record < $count; $record += $batch) {
             $max = min($record + $batch, $count);
-            $tracks = DB::select("rowid", "tid")->from("tids")->limit($max)->offset($record)->execute();
+            $tracks = DB::select("rowid", "tid")->from("tids")->limit($batch)->offset($record)->execute();
             foreach ($tracks as $track) {
-                $tags = $this->vc->get_track_vector($track["rowid"]);
+                $tags = $this->vc->calc_track_vector($track["rowid"]);
                 $vector = Umusic_Vectorcalc::simplify_vector($tags);
                 Jelly::factory("tracktag")->set(array(
                     "track_id" => $track["tid"],
