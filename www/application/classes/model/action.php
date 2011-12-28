@@ -21,6 +21,13 @@ class Model_Action extends Jelly_Model {
      * @param Jelly_Meta Jelly meta information 
      */
     public static function initialize(Jelly_Meta $meta) {
+        
+        $options = array();
+        $ratings = Kohana::$config->load('umusic')->get('ratings');
+        
+        foreach($ratings as $option => $rating)
+            $options[] = $option;
+        
         // An optional database group you want to use
         $meta->db('umusic');
 
@@ -35,13 +42,7 @@ class Model_Action extends Jelly_Model {
                 'auto_now_create'   => true,
             )),
             'action'    => Jelly::field('enum', array(
-                'choices'   => array(
-                    'added',
-                    'removed',
-                    'liked',
-                    'disliked',
-                    'played',
-                ),
+                'choices'   => $options,
             )),
         ));
     }
@@ -49,5 +50,3 @@ class Model_Action extends Jelly_Model {
 
     
 }
-
-?>
