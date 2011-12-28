@@ -13,7 +13,7 @@ defined('SYSPATH') or die('No direct script access.');
  * @copyright  (c) 2011-2012 UMusic Team
  * @license    http://umusic.github.com/license
  */
-class Model_Usertag extends Jelly_Model {
+class Model_Tracktag extends Jelly_Model {
 
     /**
      * Initialization for the model
@@ -24,11 +24,11 @@ class Model_Usertag extends Jelly_Model {
         // An optional database group you want to use
         $meta->db('umusic');
 
-        $meta->table('usertags');
+        $meta->table('tracktags');
 
         $meta->fields(array(
             'rowid' => Jelly::field('primary'),
-            'user_id' => Jelly::field('Integer'),
+            'track_id' => Jelly::field('Text'),
             'tags' => Jelly::field('Text'),
         ));
     }

@@ -1,6 +1,6 @@
 <?php
 
-defined('SYSPATH') or die('No direct script access.');
+defined("SYSPATH") or die("No direct script access.");
 
 /**
  * Umusic Conversion controller
@@ -13,75 +13,67 @@ defined('SYSPATH') or die('No direct script access.');
  */
 class Controller_Conversion extends Controller {
 
-    private $database;
-    private $used_tags;
-    private $rating;
+    private $database, $vc;
 
     public function before() {
         parent::before();
-        if (PHP_SAPI !== 'cli')
-            exit('Execute this from command line.');
-        
-        $config = Kohana::$config->load('umusic');
-        $this->used_tags = $config->get('tags');
-        $this->rating = $config->get('ratings');
+        if (PHP_SAPI !== "cli")
+            exit("Execute this from command line.");
+
+        $this->database = Database::instance()->attach("artist_term", "lastfm_similars", "lastfm_tags", "track_metadata");
+        $this->vc = new Umusic_Vectorcalc($this->database);
     }
 
-    public function action_users() {
-        $this->database = Database::instance();
-        $this->database->attach('artist_term', 'lastfm_similars', 'lastfm_tags', 'track_metadata');
+    public function action_generate_users() {
+        $this->log("Removing old user data");
+        DB::delete("usertags")->execute();
 
-        $users = Jelly::query('user')->select();
+        $users = Jelly::query("user")->select();
+        $count = $users->count();
+        $i = 0;
         foreach ($users as $user) {
-            echo "Starting with " . $user->username . ".\n";
-            // initialize result array
-            $resultvector = array();
-            foreach ($this->used_tags as $tagname) {
-                $resultvector[$tagname] = 0;
-            }
-
-            // fetch users
-            $user_id = $user->rowid;
-            $actions = Jelly::query('action')->where('user_id', '=', $user_id)->select();
-
-            // Delete all old tags            
-            $oldtags = Jelly::query('usertag')->where('user_id', '=', $user_id)->select();
-            foreach ($oldtags as $tag)
-                $tag->delete();
-
-            echo "  Calculating action vectors... \n";
-            // calculate rating vector for each action
-            foreach ($actions as $action) {
-                $result = DB::select('tags.tag', 'tid_tag.val')
-                                ->from('tags')
-                                ->join('tid_tag')->on('tags.rowid', '=', 'tid_tag.tag')
-                                ->join('tids')->on('tid_tag.tid', '=', 'tids.rowid')
-                                ->where('tids.tid', '=', $action->track_id)->execute();
-
-                // the resulting vector of this action
-                foreach ($result as $tag) {
-                    $tagname = $tag['tag'];
-                    $value = $tag['val'];
-
-                    if (isset($resultvector[$tagname]))
-                        $resultvector[$tagname] += $value;
-                }
-            }
-
-            echo "  normalizing and saving... \n";
-            // normalize the result vector
-            $sum = array_sum($resultvector);
-            foreach ($this->used_tags as $key => $tagname) {
-                $value = $resultvector[$tagname] / $sum;
-                Jelly::factory('usertag')
-                        ->set(array(
-                            'user_id' => $user_id,
-                            'tag' => $key,
-                            'rating' => $value
-                        ))->save();
-            }
-            echo "Finished with " . $user->username . "\n\n";
+            $tags = $this->vc->get_user_vector($user);
+            $vector = Umusic_Vectorcalc::simplify_vector($tags);
+            $vector = Umusic_Vectorcalc::normalize($vector);
+            Jelly::factory("usertag")->set(array(
+                "user_id" => $user->rowid,
+                "tags" => json_encode($vector)
+            ))->save();
+            $this->log("(" . number_format(++$i / $count * 100, 1) . "%)\tProcessed user " . $user->username);
         }
+        $this->log("Finished.");
+    }
+
+    public function action_generate_tracks() {
+        $batch = 10;
+        $this->log("Removing old track tags...");
+        DB::delete("tracktags")->execute();
+
+        $count = DB::select(array("COUNT(*)", "num_tracks"))->from("tids")->execute()->get("num_tracks");
+
+        $this->log($count . " tracks in the database.");
+        
+        $this->log("(".  number_format(0,3)."%)\tStarting...");
+        
+        for ($record = 0; $record < $count; $record += $batch) {
+            $max = min($record + $batch, $count);
+            $tracks = DB::select("rowid", "tid")->from("tids")->limit($max)->offset($record)->execute();
+            foreach ($tracks as $track) {
+                $tags = $this->vc->get_track_vector($track["rowid"]);
+                $vector = Umusic_Vectorcalc::simplify_vector($tags);
+                Jelly::factory("tracktag")->set(array(
+                    "track_id" => $track["tid"],
+                    "tags" => json_encode($vector)
+                ))->save();
+            }
+            $this->log("(".number_format($max/$count*100,3)."%)\tProcessed records " . $record . " to " . $max . "...");
+        }
+        $this->log("Finished.");
+    }
+
+    private function log($message) {
+        echo "[" . date("H:i:s") . "] " . $message . "\n";
+        ob_flush();
     }
 
 }

@@ -64,6 +64,7 @@ abstract class Database extends Kohana_Database {
         foreach (func_get_args() as $dataset) {
             DB::query(Database::SELECT, DB::expr('ATTACH "' . $this->_umusic_config['dataset']['dir'] . $dataset . '.' . $this->_umusic_config['dataset']['ext'] . '" AS ' . $dataset))->execute();
         }
+        return $this;
     }
 
 }
