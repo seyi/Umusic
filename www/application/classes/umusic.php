@@ -37,6 +37,10 @@ class Umusic {
                 $dotb += $b[$i] * $b[$i];
                 $dotab += $a[$i] * $b[$i];
             }
+            
+            if($dota == 0 || $dotb == 0)
+                return 0;
+            
             $cosTheta = $dotab / (sqrt($dota) * sqrt($dotb));
             return $cosTheta;
         }
