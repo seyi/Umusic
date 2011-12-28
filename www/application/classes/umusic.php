@@ -27,12 +27,12 @@ class Umusic {
      * @return  double  a value between 0 and 1 representing the similarity of the two input arrays
      */
     public static function cosSim(array $a, array $b) {
-        $size = sizeof($a);
-        if (size == sizeof($b)) {
+        $size = count($a);
+        if ($size == count($b)) {
             $dota = 0;
             $dotb = 0;
             $dotab = 0;
-            for ($i = 0; i < size; $i++) {
+            for ($i = 0; $i < $size; $i++) {
                 $dota += $a[$i] * $a[$i];
                 $dotb += $b[$i] * $b[$i];
                 $dotab += $a[$i] * $b[$i];

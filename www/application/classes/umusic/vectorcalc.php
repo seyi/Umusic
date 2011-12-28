@@ -90,4 +90,16 @@ class Umusic_Vectorcalc {
         return $output;
     }
 
+    public static function similar_songs($master, $array) {
+        $output = array();
+        foreach ($array as $key=>$value) {
+            $sim = Umusic::cosSim($value, $master);
+            $output[$key] = $sim;
+        }
+
+        arsort($output);
+        
+        return $output;
+    }
+
 }
