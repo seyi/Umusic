@@ -24,9 +24,9 @@ $(document).ready(function(){
 		closeEffect	: 'none'
 	};        
         
-        var fancybox_options = {
-		width		: '70%',
-		height		: '70%',
+        var signout_options = {
+		width		: '30%',
+		height		: '20%',
 		autoSize	: false,
 		closeClick	: false,
 		openEffect	: 'none',
@@ -39,7 +39,7 @@ $(document).ready(function(){
 		'recommendation-item':'partials/recommendation-item',
 		'register-dialog':'dialog/register',
 		'signin-dialog':'dialog/signin',
-		'user-dialog':'dialog/user',
+		'signout-dialog':'dialog/signout',
 		'search-page':'page/search',
 		'playlist-page':'page/playlist'
 	};
@@ -64,8 +64,8 @@ $(document).ready(function(){
 				case '#register-dialog':
 					$.fancybox(Mustache.to_html(templates['register-dialog'],variables),register_options);
 				break;
-				case '#user-dialog':
-					$.fancybox(Mustache.to_html(templates['user-dialog'],variables),fancybox_options);
+				case '#signout-dialog':
+					$.fancybox(Mustache.to_html(templates['signout-dialog'],variables),signout_options);
 				break;
 				case '#signout':
 					$.get(variables.base + "api/signout", function(response) {
@@ -77,6 +77,9 @@ $(document).ready(function(){
 						}
 					});
 				break;
+                                case '#close':
+                                    $.fancybox.close();
+                                break;
 			}
 		} else if(src.hasClass('page')) {
 			$('#main').html(Mustache.to_html(templates[src.attr('href')+'-page'],variables));
@@ -122,7 +125,7 @@ $(document).ready(function(){
 			case 'signin':
 				if(info.status == 0) {
 					variables.user = info.user;
-					$("#user").html('<a class="action user" href="#user-dialog">Welcome, ' + variables.user.username + '</a>');
+					$("#user").html('<a class="action user" href="#signout-dialog">Welcome, ' + variables.user.username + '</a>');
 					$.fancybox.close();
 				} else {
 					variables.errors = info.errors;
