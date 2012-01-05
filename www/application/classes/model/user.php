@@ -61,6 +61,7 @@ class Model_User extends Jelly_Model implements Model_ACL_User {
                     array(array(':model', 'hash')),
                 ),
             )),
+            'playlist' => Jelly::field('Text'),
         ));
     }
 

@@ -71,11 +71,12 @@ class Controller_Api extends Controller {
 
     public function action_register() {
         if ($this->request->method() == 'POST') {
-            try {
+            try {        
                 $user = Jelly::factory('user');
                 $user->username = $this->request->post('username');
                 $user->email = $this->request->post('email');
                 $user->password = $this->request->post('password');
+                $user->playlist = json_encode(array());
 
                 $extra_rules = Validation::factory($this->request->post())
                         ->rule('password_confirm', 'matches', array(':validation', ':field', 'password'));
@@ -223,6 +224,95 @@ class Controller_Api extends Controller {
                 }
             }
             $this->result['data'] = $output;
+        }
+    }
+    
+    public function action_playlist_get() {
+        if (!$this->user)
+            $this->respond('You are not signed in', 1);
+        try {
+            //$user = Jelly::query('users')->where('user_id', '=', $this->user->rowid)->limit(1)->select();
+            $user = $this->user;
+            $playlist = array();
+            $playlist = json_decode($user->playlist);
+            
+            $results = array();
+            foreach($playlist as $track_id) {
+                $song = DB::select('track_id', 'title', 'artist_name', 'release', 'duration')
+                        ->from('songs')
+                        ->where('track_id', '=', $track_id)
+                        ->limit(1)
+                        ->execute('umusic')
+                        ->as_array();
+                $results[] = $song;
+            }
+
+            $this->respond('Success', 0, array('results' => $results));
+        } catch (Jelly_Validation_Exception $e) {
+            $this->respond('Validation Exception', 1, array('error' => $e->errors()));
+        } catch (Exception $e) {
+            $this->respond('Failed', 1, array('error_message' => $e->getTraceAsString()));
+        }
+    }
+    
+    public function action_playlist_add() {
+        if ($this->request->method() == 'POST') {
+            if (!$this->user)
+                $this->respond('You are not signed in', 1);
+            try {
+                $user = $this->user;
+                $playlist = array();
+                $playlist = json_decode($user->playlist);
+                
+                $track_id = $this->request->post('track_id');
+                
+                if(!in_array($track_id, $playlist)) {
+                    $playlist[] = $track_id;
+                }
+                
+                $user->playlist = json_encode($playlist);
+                $user->save();
+                
+                $this->respond('Success', 0);
+            } catch (Jelly_Validation_Exception $e) {
+                $this->respond('Validation Exception', 1, array('error' => $e->errors()));
+            } catch (Exception $e) {
+                $this->respond('Failed', 1, array('error_message' => $e->getTraceAsString()));
+            }
+        } else {
+            $this->respond('This method requires POST data', 1);
+        }
+    }
+    
+    public function action_playlist_remove() {
+        if($this->request->method() == 'POST') {
+            if (!$this->user)
+                $this->respond('You are not signed in', 1);
+            try {
+                $user = $this->user;
+                $playlist = array();
+                $playlist = json_decode($user->playlist);
+                
+                $track_id = $this->request->post('track_id');
+                
+                $new_playlist = array();
+                foreach($playlist as $song) {
+                    if($song != $track_id) {
+                        $new_playlist[] = $song;
+                    }
+                }
+                               
+                $user->playlist = json_encode($new_playlist);
+                $user->save();
+                
+                $this->respond('Success', 0);
+            } catch (Jelly_Validation_Exception $e) {
+                $this->respond('Validation Exception', 1, array('error' => $e->errors()));
+            } catch (Exception $e) {
+                $this->respond('Failed', 1, array('error_message' => $e->getTraceAsString()));
+            }
+        } else {
+            $this->respond('This method requires POST data', 1);
         }
     }
 

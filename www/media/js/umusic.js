@@ -37,6 +37,7 @@ $(document).ready(function(){
 	templates = {
 		'playlist-item':'partials/playlist-item',
 		'recommendation-item':'partials/recommendation-item',
+                'stream-item':'partials/stream-item',
 		'register-dialog':'dialog/register',
 		'signin-dialog':'dialog/signin',
 		'signout-dialog':'dialog/signout',
@@ -82,21 +83,58 @@ $(document).ready(function(){
                                 break;
 			}
 		} else if(src.hasClass('page')) {
-			$('#main').html(Mustache.to_html(templates[src.attr('href')+'-page'],variables));
+			if(src.attr('href') == 'playlist') {
+                                $.get(variables.base + "api/playlist_get", function(response) {
+                                        var info = $.parseJSON(response);
+                                        if(info.status == 0) {
+                                            $('#main').html(Mustache.to_html(templates[src.attr('href')+'-page'],variables));
+                                            if(info.results) { 
+                                                $.each(info.results, function(key,val){
+                                                    var song = Mustache.to_html(templates['playlist-item'],$.merge(val[0],variables));
+                                                    $('#main').append(song);
+                                                }); 
+                                            } else {
+                                                 $('#main').append('Your playlist is empty.');
+                                            }
+                                        } else {
+                                            alert(info.message);
+                                        }
+                                });
+                        } else {
+                                $('#main').html(Mustache.to_html(templates[src.attr('href')+'-page'],variables));
+                        }
 		} else if (src.hasClass('recommendation')) {
 			var track_id = src.parent().parent().attr('id');
-			var action;
+                        var action;
 			if(src.hasClass('add')) {
 				action = 'added';
+                                $.post(variables.base + "api/playlist_add", {track_id:track_id}, function(response) {
+                                    console.log(response);
+                                });
 			} else {
 				action = 'removed';
 			}
 			
 			$.post(variables.base + 'api/action', {action:action, track_id:track_id}, function(response){
 				console.log(response);
+                                var info = $.parseJSON(response);
+                                if(info.status == 0 && action == 'removed') {
+                                    var id = document.getElementById(track_id);
+                                    id.parentNode.removeChild(id);
+                                }
 			});
-		}
-		
+		} else if (src.hasClass('playlist')) {
+                        var track_id = src.parent().parent().attr('id');
+                        console.log(track_id);
+                        $.post(variables.base + 'api/playlist_remove', {track_id:track_id}, function(response) {
+                            console.log(response);
+                            var info = $.parseJSON(response);
+                                if(info.status == 0) {
+                                    var id = document.getElementById(track_id);
+                                    id.parentNode.removeChild(id);
+                                }
+                        });
+                }
 		return false;
 	});
 	
@@ -138,7 +176,7 @@ $(document).ready(function(){
 				if(info.status == 0) {
 					$('#main').html('<h1>Search Results:</h1>');
 					$.each(info.results, function(key,val){
-						var song = Mustache.to_html(templates['recommendation-item'],$.merge(val,variables));
+                                                var song = Mustache.to_html(templates['recommendation-item'],$.merge(val,variables));
 						$('#main').append(song);
 					});
 				} else {

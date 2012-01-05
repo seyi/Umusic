@@ -117,7 +117,7 @@ Content
 	bottom: 5px;
 }
 
-#main .item a.recommendation.add, #main .item a.recommendation.remove {
+#main .item a.recommendation.add, #main .item a.recommendation.remove, #main .item a.playlist.remove {
 	background: #333;
 	color: #fff;
 	text-decoration: none;
@@ -131,7 +131,7 @@ Content
 	color: #000;
 }
 
-#main .item a.recommendation.remove:hover {
+#main .item a.recommendation.remove:hover, #main .item a.playlist.remove:hover {
 	background-color: #d7aba2;
 	color: #000;
 }
