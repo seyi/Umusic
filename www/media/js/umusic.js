@@ -164,7 +164,23 @@ $(document).ready(function(){
 				if(info.status == 0) {
 					variables.user = info.user;
 					$("#user").html('<a class="action user" href="#signout-dialog">Welcome, ' + variables.user.username + '</a>');
-					$.fancybox.close();
+                                      
+                                        $.get(variables.base + "api/playlist_get", function(response) {
+                                            var info = $.parseJSON(response);
+                                            if(info.status == 0) {
+                                                if(info.results) { 
+                                                    $('#playlist').html('');
+                                                    $.each(info.results, function(key,val){
+                                                        var song = Mustache.to_html(templates['stream-item'],$.merge(val[0],variables));
+                                                        $('#playlist').append(song);
+                                                    }); 
+                                                } else {
+                                                     $('#playlist').append('Your playlist is empty.');
+                                                }
+                                            } 
+                                        });
+                                        
+                                        $.fancybox.close();
 				} else {
 					variables.errors = info.errors;
 					variables.values = info.values;
