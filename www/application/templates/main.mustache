@@ -31,41 +31,9 @@
 		</div>
     </header>
     <div id="main" role="main">
-		<h1>Recommendations:</h1>
-		<div class="item">
-			<img src="{{base}}media/img/album_art/Continuum.jpg" alt="Album Art" />
-			<div class="info">
-				<h1>Stop This Train</h1>
-				<h2>John Mayer</h2>
-			</div>
-			<div class="interaction">
-				<a href="#" class="add">Add to playlist</a>
-				<a href="#" class="dontlike">I don't like this</a>
-			</div>
-		</div>
-		<div class="item">
-			<img src="{{base}}media/img/album_art/Battle Studies.jpg" alt="Album Art" />
-			<div class="info">
-				<h1>Assassin</h1>
-				<h2>John Mayer</h2>
-			</div>
-			<div class="interaction">
-				<a href="#" class="add">Add to playlist</a>
-				<a href="#" class="dontlike">I don't like this</a>
-			</div>
-		</div>
-		<div class="item">
-			<img src="{{base}}media/img/album_art/Battle Studies.jpg" alt="Album Art" />
-			<div class="info">
-				<h1>Who Says</h1>
-				<h2>John Mayer</h2>
-			</div>
-			<div class="interaction">
-				<a href="#" class="add">Add to playlist</a>
-				<a href="#" class="dontlike">I don't like this</a>
-			</div>
-		</div>
-	</div>
+	<h1>Welcome!</h1>
+	<p>Welcome to Umusic!</p>
+    </div>
     <div id="music">
     	<div id="current">
     		<div id="controls">
@@ -74,10 +42,10 @@
     			<a href="#next">nx</a>
     		</div>
     		<div class="item">
-    			<img src="{{base}}media/img/album_art/Room For Squares.jpg" alt="Album Art" />
+    			<img src="{{base}}media/img/album_art/Unknown.png" alt="Album Art" />
     			<div class="info">
-    				<h1>Say</h1>
-    				<h2>John Mayer</h2>
+    				<h1>Title</h1>
+    				<h2>Artist</h2>
     			</div>
     		</div>
     	</div>
@@ -125,7 +93,19 @@
   <script defer src="{{base}}media/js/mustache.js"></script>
   <script defer src="{{base}}media/js/fancybox.js"></script>
   <script type="text/javascript">
-  	var base="{{base}}";
+  	var base = "{{base}}";
+        {{#user}}
+        var user = {
+            email: "{{email}}",
+            password: "{{password}}",
+            playlist: "{{playlist}}",
+            rowid: {{rowid}},
+            username: "{{username}}"
+        };
+        {{/user}}
+        {{^user}}
+        var user = {};
+        {{/user}}
   </script>
   <script defer src="{{base}}media/js/umusic.js"></script>
 

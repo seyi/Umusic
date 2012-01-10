@@ -1,5 +1,6 @@
 var variables = {
-	base: base
+	base: base,
+        user: user
 };
 var templates;
 
