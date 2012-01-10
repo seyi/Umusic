@@ -43,7 +43,8 @@ $(document).ready(function(){
         'signin-dialog':'dialog/signin',
         'signout-dialog':'dialog/signout',
         'search-page':'page/search',
-        'playlist-page':'page/playlist'
+        'playlist-page':'page/playlist',
+        'recommendations-page':'page/recommendations'
     };
 	
     $.each(templates,function(key,val){
@@ -85,9 +86,20 @@ $(document).ready(function(){
                     break;
             }
         } else if(src.hasClass('page')) {
-		
             $('#main').html(Mustache.to_html(templates[src.attr('href')+'-page'],variables));
                 
+            if(src.attr('href') == "recommendations") {
+                $.post(variables.base + "api/user_recommendations", function(response){
+                    var info = $.parseJSON(response);
+                    if(info.status == 0) {
+                        $('#main p').remove();
+                        console.log(info);
+                        $.each(info.data,function(key,val){
+                            $('#main').append(Mustache.to_html(templates['recommendation-item'],val));
+                        });
+                    }
+                });
+            }
         } else if (src.hasClass('recommendation')) {
             var track_id = src.parent().parent().attr('id');
             var action;
@@ -98,8 +110,15 @@ $(document).ready(function(){
                 }, function(response) {
                     var info = $.parseJSON(response);
                     if(info.status == 0) {
-                        variables.user.playlist.push(info.songinfo);
-                        update_playlist();
+                        var exists = false;
+                        $.each(variables.user.playlist,function(key,val){
+                            if(val.track_id == track_id)
+                                exists = true;
+                        });
+                        if(!exists) {
+                            variables.user.playlist.push(info.songinfo);
+                            update_playlist();
+                        }
                     } else {
                         console.log(info);
                     }

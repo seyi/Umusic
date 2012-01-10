@@ -231,9 +231,9 @@ class Controller_Api extends Controller {
             
             $output = array(); $i = 0;
             foreach ($recommendations as $track=>$sim) {
-                if($i > $limit)
+                if($i >= $limit)
                     break;
-                else if($sim < 0.5)
+                else if($sim < 0.8)
                     continue;
                 else {
                     $track = DB::select('track_id', 'title', 'artist_name', 'release', 'duration')
@@ -247,9 +247,11 @@ class Controller_Api extends Controller {
                     
                     $track['sim'] = $sim;
                     $output[] = $track;
+                    $i++;
                 }
             }
-            $this->result['data'] = $output;
+            
+            $this->respond("Success", 0, array('data' => $output));
         }
     }
     
