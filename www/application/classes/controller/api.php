@@ -47,10 +47,11 @@ class Controller_Api extends Controller {
         parent::before();
         $this->database = Database::instance();
         $this->database->attach('lastfm_tags', 'track_metadata');
-        $this->response->headers("Content-type", "text/plain");
+        $this->response->headers("Content-type", "text/json");
         $this->session = Session::instance();
         $this->user = $this->session->get('user');
         $this->result = array();
+        
     }
 
     public function action_index() {
@@ -132,7 +133,32 @@ class Controller_Api extends Controller {
     private function _login($user) {
         $this->user = $user;
         $this->session->set('user', $user);
-        $this->respond("Successfully signed in", 0, array('user' => $user->as_array()));
+        
+        $playlist = json_decode($user->playlist);
+        $results = array();
+        foreach ($playlist as $track_id) {
+            $song = DB::select('track_id', 'title', 'artist_name', 'release', 'duration')
+                    ->from('songs')
+                    ->where('track_id', '=', $track_id)
+                    ->limit(1)
+                    ->execute('umusic')
+                    ->as_array();
+            $results[] = $song[0];
+        }
+        
+        $user = $user->as_array();
+        if(count($results) > 0)
+            $user['playlist'] = $results;
+        else
+            $user['playlist'] = array();
+        
+        $this->respond("Successfully signed in", 0, array('user' => $user));
+    }
+    
+    public function action_test() {
+        $this->response->headers('Content-Type','text/plain');
+        $user = Jelly::factory('user', 1);
+        print_r($user);
     }
 
     public function action_signout() {
@@ -273,11 +299,18 @@ class Controller_Api extends Controller {
                 $user->playlist = json_encode($playlist);
                 $user->save();
                 
-                $this->respond('Success', 0);
+                $song = DB::select('track_id', 'title', 'artist_name', 'release', 'duration')
+                        ->from('songs')
+                        ->where('track_id', '=', $track_id)
+                        ->limit(1)
+                        ->execute('umusic')
+                        ->as_array();
+                
+                $this->respond('Success', 0, array('songinfo' => $song[0]));
             } catch (Jelly_Validation_Exception $e) {
                 $this->respond('Validation Exception', 1, array('error' => $e->errors()));
             } catch (Exception $e) {
-                $this->respond('Failed', 1, array('error_message' => $e->getTraceAsString()));
+                $this->respond('Failed', 1, array('error_message' => (array)$e));
             }
         } else {
             $this->respond('This method requires POST data', 1);
