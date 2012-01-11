@@ -308,3 +308,74 @@ Fancybox
 .form-error {
     color: red;
 }
+
+/*
+Search
+*/
+.search {
+    position: absolute;
+    top: 25%;
+    left: 25.5%;
+    display: inline;
+    height: 200px;
+    width: 700px;
+    background-image: -webkit-linear-gradient(bottom, rgb(10,10,10) -300%, rgb(255,255,255) 20%);
+    background: -moz-linear-gradient(bottom, rgb(10,10,10) -300%, rgb(255,255,255) 20%);
+    -webkit-border-radius: 20px;
+	   -moz-border-radius: 20px;
+			border-radius: 20px;
+    box-shadow: 3px 3px 8px #111;
+}
+
+.search h1 {
+    margin: 20px 30px 20px 20px;
+    font-size: 2.5em;
+}
+
+.search form {
+    position: absolute;
+    width: 660px;
+    height: 34px;
+    margin: 23% 20px 0 20px;
+    -webkit-border-radius: 10px;
+	   -moz-border-radius: 10px;
+			border-radius: 10px;
+    background: rgb(97,97,97);
+    box-shadow: 3px 3px 5px rgb(45,45,45);
+}
+
+.search input[type="text"] {
+    padding: 5px 37px 8px 9px;
+    height: 21px;
+    margin: 0 2px 0 -2px;
+    width: 280px;
+    border: 0px;
+    border-radius: 7px;
+    background: rgb(107,107,107);
+    color: rgb(241,241,224);
+}
+
+.search input[name="artist"] {
+    background: url(https://github.com/Umusic/Umusic/raw/gh-pages/images/bg_searchbox.png) no-repeat 291px 6px;
+}
+
+.search input[type="submit"] {
+    border: 0px none;
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    width: 43px;
+    height: 36px;
+    background: transparent none;
+    cursor: pointer;
+}
+
+#welcome {
+    position: absolute;
+    top: 25%;
+    left: 40%;
+}
+
+#welcome h1 {
+    text-align: center;
+}
