@@ -27,7 +27,7 @@ class Umusic_Recommendation {
         foreach($tracktags as $tracktag) {
             $trackid = $tracktag->track_id;
             $trackvector = json_decode($tracktag->tags);
-            $sim = Umusic::cosSim($value, $master);
+            $sim = Umusic::cosSim($trackvector, $master);
             if($sim > $min)
                 $vectors[$trackid] = $sim;
         }
