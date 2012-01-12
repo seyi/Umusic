@@ -21,13 +21,19 @@ class Umusic_Recommendation {
         $this->vc = new Umusic_Vectorcalc($this->database);
     }
     
-    public function get_recommendations($vector) {
+    public function get_recommendations($master,$min = 0.8) {
         $tracktags = Jelly::query('tracktag')->select_all();
         $vectors = array();
         foreach($tracktags as $tracktag) {
-            $vectors[$tracktag->track_id] = json_decode($tracktag->tags);
+            $trackid = $tracktag->track_id;
+            $trackvector = json_decode($tracktag->tags);
+            $sim = Umusic::cosSim($value, $master);
+            if($sim > $min)
+                $vectors[$trackid] = $sim;
         }
-        $similar = $this->vc->similar_songs($vector, $vectors);
+
+        arsort($vectors);
+                
         return $similar;
     }
     
