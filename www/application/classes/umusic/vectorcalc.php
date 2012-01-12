@@ -16,10 +16,25 @@ class Umusic_Vectorcalc {
     private $used_tags, $db_used_tags;
     private $ratings;
     private $database;
+    
+    public static function flatten($array) {
+        $a = array();
+        foreach($array as $val) {
+            if(is_array($val))
+                foreach($val as $tag)
+                    $a[] = $tag;
+            else
+                $a[] = $val;
+        }
+        return $a;
+    }
 
     public function __construct(Database $database) {
         $config = Kohana::$config->load('umusic');
-        $this->used_tags = $config->get('tags');
+        
+        
+        $this->used_tags = $this::flatten($config->get('tags'));
+        
         $this->db_used_tags = DB::select('rowid', 'tag')->from('tags')->where('tag', 'IN', $this->used_tags);
         $this->ratings = $config->get('ratings');
 
@@ -50,7 +65,7 @@ class Umusic_Vectorcalc {
 
         // Initialize Result vector for this user
         $resultvector = array();
-        foreach ($this->used_tags as $tagname) {
+        foreach ($this->used_tags as $key => $tagname) {
             $resultvector[$tagname] = 0;
         }
 
@@ -72,7 +87,13 @@ class Umusic_Vectorcalc {
         $tags = Kohana::$config->load('umusic')->get('tags');
         $result = array();
         foreach ($tags as $tag) {
-            $result[] = isset($array[$tag]) ? $array[$tag] : 0;
+            if(is_array($tag)) {
+                $res = 0;
+                foreach($tag as $name)
+                    $res += isset($array[$name]) ? $array[$name] : 0;
+                $result[] = $res;
+            } else
+                $result[] = isset($array[$tag]) ? $array[$tag] : 0;
         }
         return $result;
     }
