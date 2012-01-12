@@ -72,7 +72,7 @@ class Controller_External extends Controller {
             $cache->set('artwork-'.$artist.'-'.$title,array(
                     'ext' => $ext,
                     'image' => $image,
-            ));
+            ),3600 * 24 * 100);
         }
         
         $this->response->headers('Content-Type',File::mime_by_ext($ext));
