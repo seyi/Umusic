@@ -312,13 +312,11 @@ Fancybox
 /*
 Search
 */
-.search {
-    position: absolute;
-    top: 25%;
-    left: 25.5%;
-    display: inline;
-    height: 200px;
-    width: 700px;
+.search { 
+    height: 140px;
+    width: 660px;
+    margin: 134px auto;
+    padding: 20px 25px 25px 25px;
     background-image: -webkit-linear-gradient(bottom, rgb(10,10,10) -300%, rgb(255,255,255) 20%);
     background: -moz-linear-gradient(bottom, rgb(10,10,10) -300%, rgb(255,255,255) 20%);
     -webkit-border-radius: 20px;
@@ -328,7 +326,7 @@ Search
 }
 
 .search h1 {
-    margin: 20px 30px 20px 20px;
+    margin: 0 0 45px 0;
     font-size: 2.5em;
 }
 
@@ -336,7 +334,7 @@ Search
     position: absolute;
     width: 660px;
     height: 34px;
-    margin: 23% 20px 0 20px;
+    margin: 0;
     -webkit-border-radius: 10px;
 	   -moz-border-radius: 10px;
 			border-radius: 10px;
