@@ -33,8 +33,8 @@ class Umusic_Recommendation {
         }
 
         arsort($vectors);
-                
-        return $similar;
+                        
+        return $vectors;
     }
     
 }

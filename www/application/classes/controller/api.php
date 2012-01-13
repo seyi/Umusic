@@ -46,8 +46,8 @@ class Controller_Api extends Controller {
     public function before() {
         parent::before();
         $this->database = Database::instance();
-        $this->database->attach('lastfm_tags', 'track_metadata');
-        $this->response->headers("Content-type", "text/json");
+        $this->database->attach('track_metadata');
+        //$this->response->headers("Content-type", "text/json");
         $this->session = Session::instance();
         $this->user = $this->session->get('user');
         $this->result = array();
@@ -220,38 +220,62 @@ class Controller_Api extends Controller {
 
     public function action_user_recommendations() {
         $limit = 100;
-        
+		$dblimit = 10000;
+        $min = 0.8;
+		$tracks = array();
+		$i = 0;
+		$batch = 0;
+
         if (!$this->user)
             $this->respond('You are not signed in', 1);
-        
-        $usertag = Jelly::query('usertag')->where('user_id', '=', $this->user->rowid)->limit(1)->select();
-        if($usertag) {
-            $rc = new Umusic_Recommendation($this->database);
-            $recommendations = $rc->get_recommendations(json_decode($usertag->get('tags')));
-            
-            $output = array(); $i = 0;
-            foreach ($recommendations as $track=>$sim) {
-                if($i >= $limit)
-                    break;
-                else if($sim < 0.8)
-                    continue;
-                else {
-                    $track = DB::select('track_id', 'title', 'artist_name', 'release', 'duration')
-                        ->from('songs')
-                        ->where('track_id', '=', $track)
-                        ->limit(1)
-                        ->cached()
-                        ->execute()
-                        ->as_array();
-                    $track = $track[0];
-                    
-                    $track['sim'] = $sim;
-                    $output[] = $track;
-                    $i++;
-                }
-            }
-            
-            $this->respond("Success", 0, array('data' => $output));
+		
+		$usertag = Jelly::query('usertag')->where('user_id', '=', $this->user->rowid)->limit(1)->select();
+        $master = json_decode($usertag->get('tags'));
+
+		if($usertag) {
+			while($i < $limit) {
+	            $tracktags = Jelly::query('tracktag')->limit($dblimit)->offset($batch * $dblimit)->select_all();
+
+	            foreach($tracktags as $tracktag) {
+	                if($i >= $limit)
+	                    break;
+                
+	                $trackid = $tracktag->track_id;
+	                $trackvector = json_decode($tracktag->tags);
+	                $sim = Umusic::cosSim($trackvector, $master);
+                
+	                if($sim < $min)
+	                    continue;
+                
+	                $track = DB::select('track_id', 'title', 'artist_name', 'release', 'duration')
+	                        ->from('songs')
+	                        ->where('track_id', '=', $trackid)
+	                        ->limit(1)
+	                        ->cached(3600 * 24 * 7)
+	                        ->execute()
+	                        ->as_array();
+	                    $track = $track[0];
+						$track['sim'] = $sim;
+                
+	                $tracks[] = $track;
+                
+	                $i++;
+	            }
+				$batch++;
+			}
+
+			function cmp($a, $b) {
+			    if ($a['sim'] == $b['sim']) {
+			        return 0;
+			    }
+			    return ($a['sim'] > $b['sim']) ? -1 : 1;
+			}
+			
+			uasort($tracks, 'cmp');
+
+            echo View::factory('profiler/stats');
+
+            $this->respond("Success", 0, array('data' => $tracks));
         }
     }
     

@@ -20,7 +20,7 @@ class Controller_Conversion extends Controller {
         if (PHP_SAPI !== "cli")
             exit("Execute this from command line.");
 
-        $this->database = Database::instance()->attach("artist_term", "lastfm_similars", "lastfm_tags", "track_metadata");
+        $this->database = Database::instance()->attach("lastfm_tags");
         $this->vc = new Umusic_Vectorcalc($this->database);
     }
 
@@ -43,20 +43,31 @@ class Controller_Conversion extends Controller {
         }
         $this->log("Finished.");
     }
-
-    public function action_generate_tracks() {
-        $batch = 10;
+    
+    public function action_delete_tracks() {
         $this->log("Removing old track tags...");
         DB::delete("tracktags")->execute();
+    }
+
+    public function action_generate_tracks() {
+        
+        $options = CLI::options('max','offset');
+        
+        $batch = 50;
 
         $count = DB::select(array("COUNT(*)", "num_tracks"))->from("tids")->execute()->get("num_tracks");
         
-        $this->log($count . " tracks in the database.");
+        if(isset($options['max']))
+            $maxcount = min($count, $options['max'] + $options['offset']);
+        else
+            $maxcount = $count;
         
+        $offset = isset($options['offset']) ? $options['offset'] : 0;
+                
         $this->log("(".  number_format(0,3)."%)\tStarting...");
         
-        for ($record = 0; $record < $count; $record += $batch) {
-            $max = min($record + $batch, $count);
+        for ($record = $offset; $record < $maxcount; $record += $batch) {
+            $max = min($record + $batch, $maxcount);
             $tracks = DB::select("rowid", "tid")->from("tids")->limit($batch)->offset($record)->execute();
             foreach ($tracks as $track) {
                 $tags = $this->vc->calc_track_vector($track["rowid"]);
@@ -66,7 +77,7 @@ class Controller_Conversion extends Controller {
                     "tags" => json_encode($vector)
                 ))->save();
             }
-            $this->log("(".number_format($max/$count*100,3)."%)\tProcessed records " . $record . " to " . $max . "...");
+            $this->log("Processed records " . $record . " to " . $max . "...");
         }
         $this->log("Finished.");
     }
