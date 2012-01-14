@@ -25,3 +25,4 @@ www/application/data/artist_term.sqlite
 www/application/data/lastfm_similars.sqlite
 www/application/data/lastfm_tags.sqlite
 www/application/data/track_metadata.sqlite
+www/application/data/umusic.sqlite
