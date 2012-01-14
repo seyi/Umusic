@@ -13,7 +13,7 @@
 	*
 	*@param part the part of all songs to check recommendations for defaults to 1/100000th of all songs.
 	*@param min the bare minimum of our calculated similarity for which we consider two tracks similar.
-	*@return the precision and recall in an array.
+	*@return void this function will no longer return anything, rather it writes a file containing the results of the comparison.
 	*/
 	public function compare_recommendations($part = 0.000001, min = 0.8) //for one song only for now since it's quite an extensive calculation.
 	{
@@ -27,7 +27,7 @@
 		$numerator = 0;
 		$denomPrecision = 0;
 		$denomRecall = 0;
-	
+		$toWriteToFile = array();
 		$amount = $part * 1000000;	
 		for($i = 0;i<$amount;i++)
 			{
@@ -52,6 +52,7 @@
 			$query->param(':song', $song);
 			$result = $query->execute();
 			$master = $result['tid'];
+			$toWriteToFile = array_merge($toWriteToFile, array('Recommendations for: ',$master,'\n'));
 			$similars = $result['target'];
 			$LastFMSimilars = explode(',' ,$similars )
 		
@@ -71,14 +72,24 @@
 			//compare -> precision and recall
 			$count = count($LastFMSimilars);
 			$denomRecall += $count/2;
+			$ids = array_keys($vectors)
 			for($j=0;j<$count;j+=2)//yes this is correct LastFM's similarity (or dissimilarity I don't know at this point) values are in between the trackids
 			{
-				if(in_array($LastFMSimilars[j], array_keys($vectors)))
+				if(in_array($LastFMSimilars[j], $ids))
 				{
 					//in_array(strtolower($LastFMSimilars[j]), array_map('strtolower', array_keys($vectors))); in case capitalisation is different
 					$numerator++;
+					$toWriteToFile[] = $LastFMSimilars[j];
 				}
 			}
-			return array($numerator/$denomPrecision,$numerator/$denomRecall);
-		}        
-    }
+			$toWriteToFile[] = '\n\n';
+		}
+		$File = "comparing_results.txt";
+		$fh = fopen($File, 'w') or die("can't open file");
+		$toWriteToFile = array_merge($toWriteToFile, array('Overall Precision: ',($numerator / $denomPrecision),'\nOverall Recall: ',($numerator / $denomRecall)));
+		foreach($toWriteToFile as $element)
+		{
+			fwrite($fh, (string) $element);
+		}
+		fclose($fh);
+	}
