@@ -51,9 +51,9 @@
 			$query = DB::query(Database::SELECT, 'SELECT * FROM similars_dest WHERE rowid=":song"');
 			$query->param(':song', $song);
 			$result = $query->execute();
-			$master = $result['tid'];//I can't reach the database so I don't know if 'tid' is correct
+			$master = $result['tid'];
 			$similars = $result['target'];
-			$LastFMSimilars = explode(', ' ,$similars )//I can't reach the database so I don't know if it's ', ' or ','.
+			$LastFMSimilars = explode(',' ,$similars )
 		
 
 			//our recommendation, removed the return statement and sorting, it's unnecessary
