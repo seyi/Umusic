@@ -273,7 +273,8 @@ class Controller_Api extends Controller {
 			
 			uasort($tracks, 'cmp');
 
-            echo View::factory('profiler/stats');
+			if(!$this->request->is_ajax())
+            	echo View::factory('profiler/stats');
 
             $this->respond("Success", 0, array('data' => $tracks));
         }
