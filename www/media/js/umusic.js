@@ -44,7 +44,9 @@ $(document).ready(function(){
         'signout-dialog':'dialog/signout',
         'search-page':'page/search',
         'playlist-page':'page/playlist',
-        'recommendations-page':'page/recommendations'
+        'recommendations-page':'page/recommendations',
+        'mytags-page':'page/mytags',
+        'tag-item':'partials/tag-item'
     };
 	
     $.each(templates,function(key,val){
@@ -96,6 +98,22 @@ $(document).ready(function(){
                         console.log(info);
                         $.each(info.data,function(key,val){
                             $('#main').append(Mustache.to_html(templates['recommendation-item'],val));
+                        });
+                    }
+                });
+            } else if(src.attr('href') == "mytags") {
+                $.post(variables.base + "api/usertags", function(response){
+                    var info = $.parseJSON(response);
+                    if(info.status == 0) {
+                        $('#main p').remove();
+                        console.log(info);
+                        $.each(info.tags,function(key,val){
+                            var width = Math.abs(Math.round(val * info.mul));
+                            var pos = val > 0 ? width : 0;
+                            var neg = val < 0 ? width : 0;
+                            
+                            var dat = {tag:key,pos:pos,posspace:200-pos,neg:neg,negspace:200-neg};
+                            $('#main').append(Mustache.to_html(templates['tag-item'],dat));
                         });
                     }
                 });

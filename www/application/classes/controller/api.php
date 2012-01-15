@@ -217,6 +217,32 @@ class Controller_Api extends Controller {
             $this->respond('This method requires POST data', 1);
         }
     }
+    
+    public function action_usertags() {
+        if (!$this->user)
+            $this->respond('You are not signed in', 1);
+        
+        $usertag = Jelly::query('usertag')->where('user_id', '=', $this->user->rowid)->limit(1)->select();
+        $master = json_decode($usertag->get('tags'));
+        
+        $tagnames = array();
+        foreach(Kohana::$config->load('umusic')->get('tags') as $key=>$val) {
+            if(is_array($val))
+                $tagnames[] = $key;
+            else
+                $tagnames[] = $val;
+        }
+        
+        $res = array();
+        $max = $master[0];
+        foreach($tagnames as $i=>$tag)
+        {
+            $res[$tag] = $master[$i];
+            $max = $master[$i] > $max ? $master[$i] : $max;
+        }
+        
+        $this->respond('Success', 0, array('tags' => $res,'mul'=>200/$max));
+    }
 
     public function action_user_recommendations() {
         $limit = 100;

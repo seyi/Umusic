@@ -377,3 +377,31 @@ Search
 #welcome h1 {
     text-align: center;
 }
+
+.mytag {
+	margin-bottom: 10px;
+}
+
+.mytag > div {
+	display: inline-block;
+	line-height: 30px;
+	height: 30px;
+	overflow: hidden;
+}
+    
+.mytag .neg {
+	background-color: red;
+	border-radius: 5px 0 0 5px;
+}
+
+.mytag .mid {
+	background-color: gray;
+	width: 200px;
+	text-align: center;
+}
+
+.mytag .pos {  
+	background-color: green;
+	border-radius: 0 5px 5px 0;
+	margin-right: auto;
+}
