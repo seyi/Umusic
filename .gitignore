@@ -23,3 +23,5 @@ Desktop.ini
 *.sqlite
 
 www/application/data/umusic.sqlite
+
+www/application/data/umusic.sqlite
