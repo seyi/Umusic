@@ -1,1 +1,1 @@
-php index.php --uri=conversion/users
+php index.php --uri=conversion/generate_users
