@@ -416,10 +416,7 @@ class Controller_Api extends Controller {
                 
                 $info = $song[0];
                 $id = $info['artist_id'];
-                                
-                // NEEDS TO BE CHANGED !!
-                require_once 'C:\Users\Bojana\Projects\Develop\www\media\EchoNest\lib\EchoNest\Autoloader.php';
-                EchoNest_Autoloader::register();
+                
                 $echonest = new EchoNest_Client();
                 $echonest->authenticate('4M0DFUG9R81A8U7OB');
                 $artistApi = $echonest->getArtistApi();
