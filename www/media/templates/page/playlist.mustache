@@ -1,13 +1,19 @@
+<div id="list">
 <h1>{{user.username}}'s playlist</h1>
 {{#user.playlist}}
     <div class="item" id="{{track_id}}">
-	<img src="{{base}}external/artwork/{{artist_name}}/{{release}}" alt="{{artist_name}}-{{release}}" />
-	<div class="info">
-		<h1>{{title}}</h1>
-		<h2>{{artist_name}}</h2>
-	</div>
-	<div class="interaction">
-		<a class="action playlist remove" href="#">Remove from playlist</a>
-	</div>
-</div>
+	<a class="action echoinfo" href="#">
+            <img src="{{base}}external/artwork/{{artist_name}}/{{release}}" alt="{{artist_name}}-{{release}}" />
+            <div class="info">
+                    <h1>{{title}}</h1>
+                    <h2>{{artist_name}}</h2>
+            </div>
+            <div class="interaction">
+                    <a class="action playlist remove" href="#">Remove from playlist</a>
+            </div>
+        </a>
+    </div>
 {{/user.playlist}}
+</div>
+<div id="list-info">
+</div>

@@ -37,22 +37,24 @@
         </div>
     </div>
     <div id="music">
-    	<div id="current">
+    	<div id="apiswf"></div>
+        <div id="current">
     		<div id="controls">
-    			<a href="#previous">pr</a>
-    			<a href="#playpause">pl/ps</a>
-    			<a href="#next">nx</a>
+                    <button id="previous"><<</button>    			
+                    <button id="play">Play</button>
+                    <button id="pause">||</button>
+                    <button id="stop">S</button>
+                    <button id="next">>></button>
     		</div>
     		<div class="item">
-    			<img src="{{base}}media/img/album_art/Unknown.png" alt="Album Art" />
+    			<img src="{{base}}media/img/album_art/Unknown.png" alt="Album Art" id="art" />
     			<div class="info">
-    				<h1>Title</h1>
-    				<h2>Artist</h2>
+    				<h1 id="track">Title</h1>
+    				<h2 id="artist">Artist</h2>
     			</div>
     		</div>
     	</div>
     	<div id="playlist">
-    		
     	</div>
     </div>
   </div>

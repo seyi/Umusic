@@ -375,6 +375,46 @@ class Controller_Api extends Controller {
             $this->respond('This method requires POST data', 1);
         }
     }
+    
+    public function action_echoinfo() {
+        try {
+            if($this->user) {
+                $track_id = $this->request->post('track_id');
+                
+                $song = DB::select('artist_id')
+                            ->from('songs')
+                            ->where('track_id', '=', $track_id)
+                            ->limit(1)
+                            ->execute('umusic')
+                            ->as_array();
+                
+                $info = $song[0];
+                $id = $info['artist_id'];
+                                
+                // NEEDS TO BE CHANGED !!
+                require_once 'C:\Users\Bojana\Projects\Develop\www\media\EchoNest\lib\EchoNest\Autoloader.php';
+                EchoNest_Autoloader::register();
+                $echonest = new EchoNest_Client();
+                $echonest->authenticate('4M0DFUG9R81A8U7OB');
+                $artistApi = $echonest->getArtistApi();
+                
+                $artistApi->setId($id);
+                
+                $bucket = array();
+                $bucket[] = 'biographies';
+                $bucket[] = 'news';
+                $bucket[] = 'reviews';
+                $bucket[] = 'images';
+                $bucket[] = 'terms';
+                
+                $profile = $artistApi->getProfile($bucket);
+            }
+            
+            $this->respond('Success', 0, array('result' => $profile));
+        } catch (Exception $e) {
+                $this->respond('Failed', 1, array('error_message' => $e->getTraceAsString()));
+        }
+    }
 
     private function respond($message, $code=0, $data=array()) {
         exit(json_encode(Arr::merge($data, array(

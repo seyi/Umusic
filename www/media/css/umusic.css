@@ -137,6 +137,192 @@ Content
 }
 
 /*
+Playlist
+*/
+#list {
+    position: absolute;
+    width: 530px;
+    height: 100%;
+    margin: 0 30px 0 0;
+    overflow-y: auto; 
+    
+}
+
+#list .item h1, #main .item h2 {
+    margin-top: 2px;
+}
+
+#list .item h1 {
+    font-size: 20px;
+    margin-bottom: 0;
+}
+
+#list .item h2 {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+#list a:link, #list a:visited {
+    text-decoration: none;
+    color: #333;
+}
+
+#list a:hover {
+    text-decoration: none;
+    color: white;
+}
+
+#list-info {
+    position: absolute;
+    left: 570px;
+    right: 30px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+#list-info #basic-info {
+    position: absolute;
+    display: inline;
+    height: 175px;
+    width: 100%;
+}
+
+#list-info #basic-info #artisttags {
+    position: absolute;
+    display: inline;
+    left: 175px;
+    padding: 7px 0 0 15px;
+}
+
+#list-info #basic-info #tag {
+    display: inline;
+    padding: 5px;
+    margin: 5px 5px 0 0;
+    border-radius: 5px;
+    border: 2px solid #F1F1E0;
+    color: #6B6B6B;
+    font-weight: bold;
+}
+
+#list-info #basic-info #bio {
+    position: absolute;
+    display: inline;
+    left: 175px;
+    margin: 30px 0 0 0;
+    padding: 0 5px 0 20px;
+    height: 145px;
+    width: 550px;
+}
+
+#list-info #basic-info #bio p {
+    width: inherit;
+    height: 130px;
+    padding: 0 0 0 0;
+    overflow: hidden;
+    line-height: 1.25;
+}
+
+#list-info #basic-info a:link, .newsmore a:link, .revmore a:link {
+    text-decoration: none;
+    color: #333333;
+}
+
+#list-info #basic-info a:visited, .newsmore a:visited, .revmore a:visited {
+    color: #6B6B6B;
+}
+
+#list-info #art {
+    vertical-align: middle;
+    max-width: 175px;
+    max-height: 175px;
+    display: -moz-inline-box; 
+    display: inline-block;
+    border-radius: 5px;
+	box-shadow: 3px 3px 8px #111;
+}
+
+#list-info #news {
+    position: absolute;
+    top: 237px;
+    margin: 10px 0 10px 0;
+    height: 305px;
+    width: 100%;
+}
+
+#list-info #news #news1, #list-info #news #news2, #list-info #reviews #rev1, #list-info #reviews #rev2, #list-info #reviews #rev3 {
+    position: absolute;
+    padding: 10px;
+    border-radius: 5px;
+    height: 100px;
+}
+
+#list-info #news #news1 {
+    background-color: #CCC;
+}
+
+#list-info #news #news2 {
+    background-color: #999;
+    top: 185px;
+}
+
+#list-info #reviews #rev1 {
+    background-color: #CCC;
+}
+
+#list-info #reviews #rev2 {
+    background-color: #999;
+    top: 185px;
+}
+
+#list-info #reviews #rev3 {
+    background-color: #CCC;
+    top: 305px;
+}
+
+#list-info #news h2, #list-info #reviews h2 {
+    font-size: 18px;
+    margin: 0;
+    overflow: hidden;
+    height: 20px;
+    width: inherit;
+}
+
+#list-info #news #news1 p, #list-info #news #news2 p, 
+#list-info #reviews #rev1 p, #list-info #reviews #rev2 p, #list-info #reviews #rev3 p {
+    line-height: 1.25;
+    height: 50px;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.newsdate, .revdate {
+    color: #6B6B6B;
+    font-size: 10px;
+}
+
+#list-info #basic-info #bio #biolink, .newsmore, .revmore {
+    position: absolute;
+    right: 0;
+    bottom: 0px;
+    margin: 5px;
+    padding: 5px;
+    background-color: white;
+    border-radius: 5px;
+    border: 2px solid #F1F1E0;
+    color: #6B6B6B;
+    font-weight: bold;
+}
+
+#list-info #reviews {
+    position: absolute;
+    top: 562px;
+    margin: 10px 0 10px 0;
+    height: 425px;
+    width: 100%;
+}
+
+/*
 Footer
 */
 

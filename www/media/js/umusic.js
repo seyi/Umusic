@@ -44,7 +44,8 @@ $(document).ready(function(){
         'signout-dialog':'dialog/signout',
         'search-page':'page/search',
         'playlist-page':'page/playlist',
-        'recommendations-page':'page/recommendations'
+        'recommendations-page':'page/recommendations',
+        'info-page':'page/info'
     };
 	
     $.each(templates,function(key,val){
@@ -157,6 +158,54 @@ $(document).ready(function(){
                     update_playlist();
                 }
             });
+        } else if (src.hasClass('echoinfo')) {
+            var track_id2 = src.parent().attr('id');
+            $.post(variables.base + 'api/echoinfo', {track_id:track_id2}, function(response) {
+                var info = $.parseJSON(response);
+                if(info.status == 0) {
+                    $('#list-info').html('');
+                    
+                    info.result.image = info.result.images[0].url;
+                    
+                    $('#list-info').append(Mustache.to_html(templates['info-page'],$.merge(info.result,variables)));
+                    
+                    var tags = new Array();
+                    for(var i = 0; i < 5; i++) {
+                        tags[i] = info.result.terms[i].name;
+                    }
+                    
+                    for(var tag in tags) {
+                        $('#artisttags').append('<div id="tag">' + tags[tag] + '</div>');
+                    }
+                    
+                    var bio = info.result.biographies[0];
+                    var i = 0;          
+                    while(bio.site != 'last.fm') {
+                        i++;
+                        bio = info.result.biographies[i];
+                    }  
+                    if(bio) {    
+                        $('#bio').append('<p>' + bio.text + '</p><span id="biolink"><a href="' + bio.url + '">more</a></span>');
+                    } else {
+                        bio = info.result.biographies[0];
+                        $('#bio').append('<p>' + bio.text + '</p><a href="' + bio.url + '">more ...</a>');
+                    }
+                    
+                    if(info.result.news) {
+                        $('#news').html('<h1>News</h1><div id="news1"></div><div id="news2"></div>');
+                        $('#news1').html('<h2>' + info.result.news[0].name + '</h2></ br><span class="newsdate">' + info.result.news[0].date_posted + '</span></ br><p>' + info.result.news[0].summary + '</p><div><span class="newsmore"><a href="' + info.result.news[0].url + '">more</a></span></div>');
+                        $('#news2').html('<h2>' + info.result.news[1].name + '</h2></ br><span class="newsdate">' + info.result.news[1].date_posted + '</span></ br><p>' + info.result.news[1].summary + '</p><div><span class="newsmore"><a href="' + info.result.news[1].url + '">more</a></span></div>');
+                    }
+                    
+                    if(info.result.reviews) {
+                        $('#reviews').html('<h1>Reviews</h1><div id="rev1"></div><div id="rev2"></div><div id="rev3"></div>');
+                        $('#rev1').html('<h2>' + info.result.reviews[0].name + '</h2></ br><span class="revdate">' + info.result.reviews[0].date_found + '</span></ br><p>' + info.result.reviews[0].summary + '</p><div><span class="revmore"><a href="' + info.result.news[0].url + '">more</a></span></div>');
+                        $('#rev2').html('<h2>' + info.result.reviews[1].name + '</h2></ br><span class="revdate">' + info.result.reviews[1].date_found + '</span></ br><p>' + info.result.reviews[1].summary + '</p><div><span class="revmore"><a href="' + info.result.news[1].url + '">more</a></span></div>');
+                        $('#rev3').html('<h2>' + info.result.reviews[2].name + '</h2></ br><span class="revdate">' + info.result.reviews[2].date_found + '</span></ br><p>' + info.result.reviews[2].summary + '</p><div><span class="revmore"><a href="' + info.result.news[2].url + '">more</a></span></div>');
+                    }
+                    
+                }
+            });
         }
         return false;
     });
@@ -200,11 +249,13 @@ $(document).ready(function(){
                 break;
             case 'search':
                 if(info.status == 0) {
-                    $('#main').html('<h1>Search Results:</h1>');
+                    $('#main').html('<div id="list">');
+                    $('#list').html('<h1>Search Results:</h1>');
                     $.each(info.results, function(key,val){
                         var song = Mustache.to_html(templates['recommendation-item'],$.merge(val,variables));
-                        $('#main').append(song);
+                        $('#list').append(song);
                     });
+                    $('#main').append('<div id="list-info"></div>');
                 } else {
                     alert(info.message);
                 }
