@@ -59,7 +59,7 @@ return array
         'rnb',
         'rock',
         'rnr' => array('Rock and Roll','rock n roll'),
-        'singersongwriter' => array('singer songwriter','singer-songwriter'),
+        'singer-songwriter' => array('singer songwriter','singer-songwriter'),
         'soundtrack' => array('Soundtrack','Soundtracks'),
         'techno',
         'trance',
