@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="{{base}}media/css/umusic.css">
   <script src="{{base}}media/js/modernizr.js"></script>
   <script src="{{base}}media/js/less.js"></script>
+  <script src="{{base}}media/js/swfobject.js"></script>
 </head>
 
 <body>
@@ -38,14 +39,15 @@
         </div>
     </div>
     <div id="music">
-    	<div id="apiswf"></div>
+    	<div id="myytplayer"></div>
         <div id="current">
     		<div id="controls">
-                    <button id="previous"><<</button>    			
-                    <button id="play">Play</button>
-                    <button id="pause">||</button>
-                    <button id="stop">S</button>
-                    <button id="next">>></button>
+                    <a id="previous "href="javascript:ytplayer.previousVideo()"><<</a> 
+                    <a id="pause" href="javascript:ytplayer.pauseVideo()">Pause</a> 
+                    <a id="play" href="javascript:ytplayer.playVideo()">PLAY</a> 
+                    <a id="stop" href="javascript:ytplayer.stopVideo()">Stop</a> 
+                    <a id="next" href="javascript:ytplayer.nextVideo()">>></a> 
+
     		</div>
     		<div class="item">
     			<img src="{{base}}media/img/album_art/Unknown.png" alt="Album Art" id="art" />
@@ -61,6 +63,7 @@
   </div>
 
   <script src="{{base}}media/js/jquery.js"></script>
+  <script src="{{base}}media/js/ytplayer.js"></script>
   <script defer src="{{base}}media/js/mustache.js"></script>
   <script defer src="{{base}}media/js/fancybox.js"></script>
   <script type="text/javascript">
