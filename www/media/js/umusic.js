@@ -304,7 +304,8 @@ $(document).ready(function(){
 				
 				if(i == variables.user.playlist.length) {
 					ytplayer = document.getElementById("myytplayer");
-				    ytplayer.cuePlaylist(variables.playlist);
+					if(ytplayer.getPlayerState() != 1)
+				    	ytplayer.cuePlaylist(variables.playlist);
 				}
 			});
         });
