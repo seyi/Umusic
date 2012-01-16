@@ -591,3 +591,13 @@ Search
 	border-radius: 0 5px 5px 0;
 	margin-right: auto;
 }
+
+/*
+Youtube player
+*/
+
+#myytplayer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
