@@ -99,7 +99,6 @@ $(document).ready(function(){
                     var info = $.parseJSON(response);
                     if(info.status == 0) {
                         $('#main p').remove();
-                        console.log(info);
                         $.each(info.data,function(key,val){
                             $('#main').append(Mustache.to_html(templates['recommendation-item'],val));
                         });
@@ -110,7 +109,6 @@ $(document).ready(function(){
                     var info = $.parseJSON(response);
                     if(info.status == 0) {
                         $('#main p').remove();
-                        console.log(info);
                         $.each(info.tags,function(key,val){
                             var width = Math.abs(Math.round(val * info.mul));
                             var pos = val > 0 ? width : 0;
@@ -154,7 +152,6 @@ $(document).ready(function(){
                 track_id:track_id
             }, function(response){
                 var info = $.parseJSON(response);
-                console.log(info);
                 if(info.status == 0 && action == 'removed') {
                     var id = document.getElementById(track_id);
                     id.parentNode.removeChild(id);
@@ -326,7 +323,6 @@ $(document).ready(function(){
 				format:5
 		},
 		  success: function(data) {
-			console.log(data);
 			callback(data.data.items[0].id);
 		}
 		});
