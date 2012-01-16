@@ -205,21 +205,19 @@ Playlist
     font-weight: bold;
 }
 
+#list-info #basic-info img {
+	float:left;
+}
+
 #list-info #basic-info #bio {
-    position: absolute;
-    display: inline;
-    left: 175px;
-    margin: 30px 0 0 0;
-    padding: 0 5px 0 20px;
-    height: 145px;
-    width: 550px;
+    margin-left: 190px;
+	margin-top: 20px;
+    padding: 5px;
+	height: 150px;
+	overflow: hidden;
 }
 
 #list-info #basic-info #bio p {
-    width: inherit;
-    height: 130px;
-    padding: 0 0 0 0;
-    overflow: hidden;
     line-height: 1.25;
 }
 
@@ -253,21 +251,23 @@ Playlist
 #list-info #news #news1, #list-info #news #news2, #list-info #reviews #rev1, #list-info #reviews #rev2, #list-info #reviews #rev3 {
     position: absolute;
     padding: 10px;
-    border-radius: 5px;
     height: 100px;
 }
 
 #list-info #news #news1 {
     background-color: #CCC;
+	border-radius: 5px 5px 0 0;
 }
 
 #list-info #news #news2 {
     background-color: #999;
     top: 185px;
+	border-radius: 0 0 5px 5px;
 }
 
 #list-info #reviews #rev1 {
     background-color: #CCC;
+	border-radius: 5px 5px 0 0;
 }
 
 #list-info #reviews #rev2 {
@@ -278,6 +278,7 @@ Playlist
 #list-info #reviews #rev3 {
     background-color: #CCC;
     top: 305px;
+	border-radius: 0 0 5px 5px;
 }
 
 #list-info #news h2, #list-info #reviews h2 {
