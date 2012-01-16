@@ -1,10 +1,13 @@
 var variables = {
     base: base,
-    user: user
+    user: user,
+	playlist: []
 };
 var templates;
 
 var echo;
+
+var yt_updateplaylist;
 
 $(document).ready(function(){
     var signin_options = {
@@ -291,10 +294,40 @@ $(document).ready(function(){
 	
     function update_playlist() {
         var playlist = $('#playlist').html('');
+		variables.playlist = [];
+		var i=0;
         $.each(variables.user.playlist,function(key,val){
             playlist.append(Mustache.to_html(templates['stream-item'], val));
+			getYoutubeLink(val.title,val.artist_name,function(ytid){
+				variables.playlist[key] = ytid;
+				i++;
+				
+				if(i == variables.user.playlist.length) {
+					ytplayer = document.getElementById("myytplayer");
+				    ytplayer.cuePlaylist(variables.playlist);
+				}
+			});
         });
     }
-        
-        
+
+	yt_updateplaylist = update_playlist;
+    
+	function getYoutubeLink(title, artist, callback) {
+		$.ajax({
+		  url: 'http://gdata.youtube.com/feeds/api/videos',
+		  dataType: 'jsonp',
+		  data: {
+				v:2,
+				alt:'jsonc',
+				'max-results':1,
+				q:title + ' - ' + artist,
+				category:'Music',
+				format:5
+		},
+		  success: function(data) {
+			console.log(data);
+			callback(data.data.items[0].id);
+		}
+		});
+	}
 });

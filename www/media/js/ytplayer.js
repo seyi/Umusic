@@ -32,9 +32,7 @@ function onYouTubePlayerReady(playerId) {
     ytplayer = document.getElementById("myytplayer");
     ytplayer.addEventListener("onStateChange", "onytplayerStateChange");
     ytplayer.addEventListener("onError", "onPlayerError");
-    
-    var playlist = ["y0LO6v43YCo", "WQtGqmi2O2U"]
-    ytplayer.cuePlaylist(playlist);
+	yt_updateplaylist();
 }
 
 function onytplayerStateChange(newState) {
