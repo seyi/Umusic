@@ -125,3 +125,12 @@ Route::set('default', '(<controller>(/<action>(/<id>)))')
 		'controller' => 'welcome',
 		'action'     => 'index',
 	));
+
+if ($path = Kohana::find_file('vendor', 'EchoNest/Autoloader'))
+{
+    ini_set('include_path',
+    ini_get('include_path').PATH_SEPARATOR.dirname(dirname($path)));
+ 
+    require_once 'EchoNest/Autoloader.php';
+    EchoNest_Autoloader::register();
+}
