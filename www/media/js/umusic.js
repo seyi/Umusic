@@ -43,6 +43,7 @@ $(document).ready(function(){
         'recommendation-item':'partials/recommendation-item',
         'tag-item':'partials/tag-item',
         'stream-item':'partials/stream-item',
+        'current-item':'partials/current-item',
         'register-dialog':'dialog/register',
         'signin-dialog':'dialog/signin',
         'signout-dialog':'dialog/signout',
@@ -302,7 +303,7 @@ $(document).ready(function(){
 				if(i == variables.user.playlist.length) {
 					ytplayer = document.getElementById("myytplayer");
 					if(ytplayer.getPlayerState() != 1)
-				    	ytplayer.cuePlaylist(variables.playlist);
+                                            ytplayer.cuePlaylist(variables.playlist);
 				}
 			});
         });
@@ -327,4 +328,18 @@ $(document).ready(function(){
 		}
 		});
 	}
+        
+        
+});
+
+var updateCurrent = (function() {
+    var index = ytplayer.getPlaylistIndex();
+    var info = {
+        artist_name: variables.user.playlist[index].artist_name,
+        title: variables.user.playlist[index].title,
+        release: variables.user.playlist[index].release
+    };
+    $('#current-item').html(Mustache.to_html(templates['current-item'], info));
+    //$('#current-artist').html(variables.user.playlist[index].artist_name);
+    console.log(index);
 });
