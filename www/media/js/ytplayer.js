@@ -6,7 +6,6 @@ $(document).ready(function() {
 });
 
 function onYouTubePlayerReady(playerId) {
-    console.log(playerId);
     ytplayer = document.getElementById("myytplayer");
     ytplayer.addEventListener("onStateChange", "onytplayerStateChange");
     ytplayer.addEventListener("onError", "onPlayerError");

@@ -10,6 +10,11 @@ var echo;
 var yt_updateplaylist;
 
 $(document).ready(function(){
+    
+    if(!variables.user.username) {
+        $('#music').hide();
+    }
+    
     var signin_options = {
         width		: '50%',
         height		: '45%',
@@ -84,6 +89,7 @@ $(document).ready(function(){
                         if(info.status == 0) {
                             $("#user").html('<a class="action user" href="#signin-dialog">Sign in</a><a class="action user" href="#register-dialog">Register</a>');
                             variables.user = false;
+                            $("#music").hide();
                             $.fancybox.close();
                         }
                     });
@@ -255,7 +261,7 @@ $(document).ready(function(){
                 if(info.status == 0) {
                     variables.user = info.user;
                     $("#user").html('<a class="action user" href="#signout-dialog">Welcome, ' + variables.user.username + '</a>');
-                                      
+                    $("#music").show();                  
                     update_playlist();
                                         
                     $.fancybox.close();
@@ -309,37 +315,41 @@ $(document).ready(function(){
         });
     }
 
-	yt_updateplaylist = update_playlist;
-    
-	function getYoutubeLink(title, artist, callback) {
-		$.ajax({
-		  url: 'http://gdata.youtube.com/feeds/api/videos',
-		  dataType: 'jsonp',
-		  data: {
-				v:2,
-				alt:'jsonc',
-				'max-results':1,
-				q:title + ' - ' + artist,
-				category:'Music',
-				format:5
-		},
-		  success: function(data) {
-			callback(data.data.items[0].id);
-		}
-		});
-	}
-        
-        
+    yt_updateplaylist = update_playlist;
+
+    function getYoutubeLink(title, artist, callback) {
+            $.ajax({
+              url: 'http://gdata.youtube.com/feeds/api/videos',
+              dataType: 'jsonp',
+              data: {
+                            v:2,
+                            alt:'jsonc',
+                            'max-results':1,
+                            q:title + ' - ' + artist,
+                            category:'Music',
+                            format:5
+            },
+              success: function(data) {
+                    callback(data.data.items[0].id);
+            }
+            });
+    }
+   
+    if(variables.user) {
+        document.getElementById('#music').show();
+    } else {
+        document.getElementById('#music').hide();
+    }
 });
 
 var updateCurrent = (function() {
-    var index = ytplayer.getPlaylistIndex();
-    var info = {
-        artist_name: variables.user.playlist[index].artist_name,
-        title: variables.user.playlist[index].title,
-        release: variables.user.playlist[index].release
-    };
-    $('#current-item').html(Mustache.to_html(templates['current-item'], info));
-    //$('#current-artist').html(variables.user.playlist[index].artist_name);
-    console.log(index);
-});
+        var index = ytplayer.getPlaylistIndex();
+        var info = {
+            artist_name: variables.user.playlist[index].artist_name,
+            title: variables.user.playlist[index].title,
+            release: variables.user.playlist[index].release
+        };
+        $('#current-item').html(Mustache.to_html(templates['current-item'], info));
+    });
+
+
