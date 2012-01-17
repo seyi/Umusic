@@ -45,7 +45,10 @@ class Controller_Welcome extends Controller {
         }
         echo $this->view;
     }
-
+    
+    public function action_eval() {
+        compare_recommendations();
+    }
 }
 
 // End Welcome
