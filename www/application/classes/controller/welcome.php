@@ -68,8 +68,8 @@ class Controller_Welcome extends Controller {
         $this->view->bind('user', $user);
         $user['playlist'] = json_encode($results);
         }
+        Umusic::compare_recommendations(1,0.8);
         echo $this->view;
-        //Umusic::compare_recommendations();
     }
 }
 
