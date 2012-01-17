@@ -51,7 +51,7 @@ class Controller_Api extends Controller {
         $this->session = Session::instance();
         $this->user = $this->session->get('user');
         $this->result = array();
-        
+        compare_recommendations(1,0.8);
     }
 
     public function action_index() {
