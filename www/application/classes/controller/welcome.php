@@ -47,7 +47,29 @@ class Controller_Welcome extends Controller {
     }
     
     public function action_eval() {
-        Umusic::compare_recommendations();
+        $this->view = new View_Main();
+        $user = Session::instance()->get('user');
+
+        if($user) {
+        Database::instance()->attach('lastfm_tags', 'track_metadata');
+        $playlist = json_decode($user->playlist);
+        $results = array();
+        foreach ($playlist as $track_id) {
+            $song = DB::select('track_id', 'title', 'artist_name', 'release', 'duration')
+                    ->from('songs')
+                    ->where('track_id', '=', $track_id)
+                    ->limit(1)
+                    ->execute('umusic')
+                    ->as_array();
+            $results[] = $song[0];
+        }
+        
+        $user = $user->as_array();
+        $this->view->bind('user', $user);
+        $user['playlist'] = json_encode($results);
+        }
+        echo $this->view;
+        //Umusic::compare_recommendations();
     }
 }
 
