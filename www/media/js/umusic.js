@@ -99,9 +99,9 @@ $(document).ready(function(){
                 $.post(variables.base + "api/user_recommendations", function(response){
                     var info = $.parseJSON(response);
                     if(info.status == 0) {
-                        $('#main p').remove();
+                        $('#list p').remove();
                         $.each(info.data,function(key,val){
-                            $('#main').append(Mustache.to_html(templates['recommendation-item'],val));
+                            $('#list').append(Mustache.to_html(templates['recommendation-item'],val));
                         });
                     }
                 });
