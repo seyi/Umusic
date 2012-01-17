@@ -68,7 +68,7 @@ class Controller_Welcome extends Controller {
         $this->view->bind('user', $user);
         $user['playlist'] = json_encode($results);
         }
-        Umusic_Recommendation_Eval::compare_recommendations(1,0.8);
+        Umusic_Eval::compare_recommendations(1,0.8);
         echo $this->view;
     }
 }
