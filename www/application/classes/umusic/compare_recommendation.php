@@ -32,7 +32,7 @@
 			$LastFMSimilars = explode(',' ,$similars );
 			
 			$count = count($LastFMSimilars);
-			$result2 = Jelly::query('tracktag')->where('track_id', '=',$master)->execute();
+			$result2 = Jelly::query('tracktag')->where('track_id', '=',$master)->execute('umusic');
 			$mastervector = json_decode(result2->tags);
 			if($count>0)
 			{
