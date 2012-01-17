@@ -1,5 +1,5 @@
 <?php
-class Umusic_eval{
+class Umusic_Recommendation_Eval{
 	/**
 	*compares our recommendation to LastFM's
 	*
@@ -78,3 +78,4 @@ class Umusic_eval{
 		fclose($fh);
 	}
 }
+// End Umusic_Recommendation_Eval
