@@ -47,7 +47,7 @@ class Controller_Welcome extends Controller {
     }
     
     public function action_eval() {
-        umusic::compare_recommendations();
+        Umusic::compare_recommendations();
     }
 }
 
