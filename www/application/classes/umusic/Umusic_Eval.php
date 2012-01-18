@@ -13,7 +13,7 @@ class Umusic_Eval{
 	*@param min the bare minimum of our calculated similarity for which we consider two tracks similar.
 	*@return void this function will no longer return anything, rather it writes a file containing the results of the comparison.
 	*/
-	public function compare_recommendations($number = 1, $min = 0.8) //for one song only for now since it's quite an extensive calculation.
+	public static function compare_recommendations($number = 1, $min = 0.8) //for one song only for now since it's quite an extensive calculation.
 	{
 		$Checked = array();
 		$comparisons = 0;
