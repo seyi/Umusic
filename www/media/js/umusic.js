@@ -235,6 +235,25 @@ $(document).ready(function(){
         return false;
     });
 	
+	$('button#update').live('click',function(event){
+		var src = $(this).text("Updating...");
+		$.get(variables.base + "api/updateme", function(response){
+            var info = $.parseJSON(response);
+            if(info.status == 0) {
+                $('#main .mytag').remove();
+                $.each(info.tags,function(key,val){
+                    var width = Math.abs(Math.round(val * info.mul));
+                    var pos = val > 0 ? width : 0;
+                    var neg = val < 0 ? width : 0;
+                    
+                    var dat = {tag:key,pos:pos,posspace:200-pos,neg:neg,negspace:200-neg};
+                    $('#main').append(Mustache.to_html(templates['tag-item'],dat));
+				});
+				src.text("Update");
+			}
+		});
+	});
+	
     $("form").live("submit", function(event){
         event.preventDefault();
         var src = $(this);

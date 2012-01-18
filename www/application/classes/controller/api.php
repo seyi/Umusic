@@ -439,6 +439,45 @@ class Controller_Api extends Controller {
         }
     }
 
+	public function action_updateme() {
+		if (!$this->user)
+            $this->respond('You are not signed in', 1);
+
+		$vc = new Umusic_Vectorcalc($this->database);
+		
+		Database::instance()->attach("lastfm_tags");
+        DB::delete("usertags")->where("user_id","=",$this->user->rowid)->execute();
+
+		$tags = $vc->calc_user_vector($this->user);
+        $vector = Umusic_Vectorcalc::simplify_vector($tags);
+        $vector = Umusic_Vectorcalc::normalize($vector);
+        Jelly::factory("usertag")->set(array(
+        	"user_id" => $this->user->rowid,
+        	"tags" => json_encode($vector)
+        ))->save();
+
+		$master = $vector;
+		
+		//print_r($vector);
+		$tagnames = array();
+        foreach(Kohana::$config->load('umusic')->get('tags') as $key=>$val) {
+            if(is_array($val))
+                $tagnames[] = $key;
+            else
+                $tagnames[] = $val;
+        }
+        
+        $res = array();
+        $max = $master[0];
+        foreach($tagnames as $i=>$tag)
+        {
+            $res[$tag] = $master[$i];
+            $max = $master[$i] > $max ? $master[$i] : $max;
+        }
+        
+        $this->respond('Success', 0, array('tags' => $res,'mul'=>200/$max));
+	}
+
     private function respond($message, $code=0, $data=array()) {
         exit(json_encode(Arr::merge($data, array(
                             'status' => $code,
