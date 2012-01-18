@@ -99,6 +99,10 @@ $(document).ready(function(){
                     break;
             }
         } else if(src.hasClass('page')) {
+			if(!variables.user.username) {
+				return false;
+			}
+	
             $('#main').html(Mustache.to_html(templates[src.attr('href')+'-page'],variables));
                 
             if(src.attr('href') == "recommendations") {
