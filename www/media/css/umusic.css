@@ -38,7 +38,7 @@ header .menu a:link, header #user a:link {
 
 header #user {
 	position: absolute;
-	right: 0;
+    right: 20px;
 	top: 20px;
 }
 

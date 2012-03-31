@@ -89,6 +89,7 @@ $(document).ready(function(){
                         if(info.status == 0) {
                             $("#user").html('<a class="action user" href="#signin-dialog">Sign in</a><a class="action user" href="#register-dialog">Register</a>');
                             variables.user = false;
+                            $("#main").html('<h1 id="welcome">Welcome to Umusic!</h1>');
                             $("#music").hide();
                             $.fancybox.close();
                         }

@@ -246,7 +246,7 @@ class Controller_Api extends Controller {
     }
 
     public function action_user_recommendations() {
-        $limit = 100;
+        $limit = 50;
 		$dblimit = 10000;
         $min = 0.7;
 		$tracks = array();
@@ -260,7 +260,7 @@ class Controller_Api extends Controller {
         $master = json_decode($usertag->get('tags'));
 
 		if($usertag) {
-			while($i < $limit && $batch < 3) {
+			while($i < $limit && $batch < 6) {
 	            $tracktags = Jelly::query('tracktag')
                     ->where('track_id','NOT IN',
                         DB::select('track_id')->from('actions')->where('user_id','=',$this->user->rowid)
