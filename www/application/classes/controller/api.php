@@ -181,7 +181,7 @@ class Controller_Api extends Controller {
                         ->from('songs')
                         ->where('artist_name', 'LIKE', '%' . $artist . '%')
                         ->and_where('title', 'LIKE', '%' . $title . '%')
-                        ->limit(1000)
+                        ->limit(100)
                         ->cached()
                         ->execute('umusic');
 
