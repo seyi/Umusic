@@ -20,7 +20,7 @@ class Controller_Conversion extends Controller {
         if (PHP_SAPI !== "cli")
             exit("Execute this from command line.");
 
-        $this->database = Database::instance()->attach("lastfm_tags");
+        $this->database = Database::instance();
         $this->vc = new Umusic_Vectorcalc($this->database);
     }
 
@@ -45,15 +45,21 @@ class Controller_Conversion extends Controller {
     }
     
     public function action_delete_tracks() {
+        exit('Yo don\'t want to do this.');
         $this->log("Removing old track tags...");
         DB::delete("tracktags")->execute();
     }
 
     public function action_generate_tracks() {
-        
+        exit('Yo don\'t want to do this.');
+
+        ini_set('memory_limit','512M');
+
+        Database::instance()->attach("lastfm_tags");
+
         $options = CLI::options('max','offset');
         
-        $batch = 50;
+        $batch = 500;
 
         $count = DB::select(array("COUNT(*)", "num_tracks"))->from("tids")->execute()->get("num_tracks");
         

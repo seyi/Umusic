@@ -26,7 +26,7 @@ class Controller_Welcome extends Controller {
         $user = Session::instance()->get('user');
 
         if($user) {
-        Database::instance()->attach('lastfm_tags', 'track_metadata');
+        Database::instance();
         $playlist = json_decode($user->playlist);
         $results = array();
         foreach ($playlist as $track_id) {
@@ -51,7 +51,7 @@ class Controller_Welcome extends Controller {
         $user = Session::instance()->get('user');
 
         if($user) {
-        Database::instance()->attach('lastfm_tags', 'track_metadata');
+        //Database::instance()->attach('lastfm_tags', 'track_metadata');
         $playlist = json_decode($user->playlist);
         $results = array();
         foreach ($playlist as $track_id) {

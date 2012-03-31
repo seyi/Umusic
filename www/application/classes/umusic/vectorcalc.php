@@ -29,12 +29,20 @@ class Umusic_Vectorcalc {
         return $a;
     }
 
+    private static $tagnames = array();
+
     public function __construct(Database $database) {
         $config = Kohana::$config->load('umusic');
-        
-        
+
         $this->used_tags = $this::flatten($config->get('tags'));
-        
+
+        foreach($config->get('tags') as $key=>$val) {
+            if(is_array($val))
+                self::$tagnames[] = $key;
+            else
+                self::$tagnames[] = $val;
+        }
+
         $this->db_used_tags = DB::select('rowid', 'tag')->from('tags')->where('tag', 'IN', $this->used_tags);
         $this->ratings = $config->get('ratings');
 
@@ -53,44 +61,56 @@ class Umusic_Vectorcalc {
             $tags = $tags->where('tid_tag.tid', '=', $tid);
         }
 
-        foreach ($tags->cached()->execute() as $tag) {
+        foreach ($tags->execute() as $tag) {
             $result[$tag['usedtags.tag']] = $tag['tid_tag.val'] / 100;
         }
 
         return $result;
     }
 
+    private static $resultvector = false;
+
     public function calc_user_vector(Model_User $user) {
         $user_id = $user->rowid;
 
         // Initialize Result vector for this user
-        $resultvector = array();
-        foreach ($this->used_tags as $key => $tagname) {
-            $resultvector[$tagname] = 0;
+        if(!($resultvector = Umusic_Vectorcalc::$resultvector)) {
+            $resultvector = array();
+            foreach (self::$tagnames as $tagname) {
+                $resultvector[$tagname] = 0;
+            }
+            Umusic_Vectorcalc::$resultvector = $resultvector;
         }
 
         // Get user actions
         $actions = Jelly::query('action')->where('user_id', '=', $user_id)->select();
         foreach ($actions as $action) {
-            $tags = $this->calc_track_vector($action->track_id, true);
+            $tags = Jelly::query('tracktag')->where('track_id','=', $action->track_id)->limit(1)->execute();
+            $tags = json_decode($tags->tags);
 
-            foreach ($tags as $tag => $val) {
-                $rating = $val * $this->ratings[$action->action];
-                $resultvector[$tag] += $rating;
+            foreach($tags as $key => $value) {
+                if($value != 0) {
+                    $resultvector[self::$tagnames[$key]] += $value * $this->ratings[$action->action];
+                }
             }
         }
 
         return $resultvector;
     }
 
+    private static $tags = FALSE;
+
     public static function simplify_vector(array $array) {
-        $tags = Kohana::$config->load('umusic')->get('tags');
+        if(!($tags = Umusic_Vectorcalc::$tags))
+            $tags = Umusic_Vectorcalc::$tags = Kohana::$config->load('umusic')->get('tags');
+
         $result = array();
-        foreach ($tags as $tag) {
+        foreach ($tags as $key => $tag) {
             if(is_array($tag)) {
                 $res = 0;
                 foreach($tag as $name)
                     $res += isset($array[$name]) ? $array[$name] : 0;
+                $res += isset($array[$key]) ? $array[$key] : 0;
                 $result[] = $res;
             } else
                 $result[] = isset($array[$tag]) ? $array[$tag] : 0;

@@ -46,7 +46,7 @@ class Controller_Api extends Controller {
     public function before() {
         parent::before();
         $this->database = Database::instance();
-        $this->database->attach('track_metadata');
+        //$this->database->attach('track_metadata');
         //$this->response->headers("Content-type", "text/json");
         $this->session = Session::instance();
         $this->user = $this->session->get('user');
@@ -177,11 +177,12 @@ class Controller_Api extends Controller {
             $artist = $this->request->post('artist');
 
             try {
-                $res = DB::select('track_id', 'title', 'artist_name', 'release', 'duration')
+                $res = DB::select('songs.track_id', 'title', 'artist_name', 'release', 'duration')
                         ->from('songs')
                         ->where('artist_name', 'LIKE', '%' . $artist . '%')
                         ->and_where('title', 'LIKE', '%' . $title . '%')
                         ->limit(1000)
+                        ->cached()
                         ->execute('umusic');
 
                 if ($res->count() > 0)
@@ -247,7 +248,7 @@ class Controller_Api extends Controller {
     public function action_user_recommendations() {
         $limit = 100;
 		$dblimit = 10000;
-        $min = 0.8;
+        $min = 0.7;
 		$tracks = array();
 		$i = 0;
 		$batch = 0;
@@ -259,8 +260,12 @@ class Controller_Api extends Controller {
         $master = json_decode($usertag->get('tags'));
 
 		if($usertag) {
-			while($i < $limit) {
-	            $tracktags = Jelly::query('tracktag')->limit($dblimit)->offset($batch * $dblimit)->select_all();
+			while($i < $limit && $batch < 3) {
+	            $tracktags = Jelly::query('tracktag')
+                    ->where('track_id','NOT IN',
+                        DB::select('track_id')->from('actions')->where('user_id','=',$this->user->rowid)
+                    )
+                    ->limit($dblimit)->offset($batch * $dblimit)->select_all();
 
 	            foreach($tracktags as $tracktag) {
 	                if($i >= $limit)
@@ -445,7 +450,6 @@ class Controller_Api extends Controller {
 
 		$vc = new Umusic_Vectorcalc($this->database);
 		
-		Database::instance()->attach("lastfm_tags");
         DB::delete("usertags")->where("user_id","=",$this->user->rowid)->execute();
 
 		$tags = $vc->calc_user_vector($this->user);
